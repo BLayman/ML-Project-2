@@ -38,7 +38,7 @@ class BPNode(Node):
         Node.__init__(self, isOutput, prevActivs)
         
     # use logistic activation function for backprop
-    
+    def activFunct(self, weightedSum):
         return 1 / (1 + math.pow(math.e, weightedSum))
     
     
@@ -53,7 +53,7 @@ class RBFNode(Node):
         self.variance = variance
         
         
-    def activFunct(self, weightedSum):
+
         phiValue = 0
         # TODO: Implement phi for RBF hidden nodes
         return phiValue
