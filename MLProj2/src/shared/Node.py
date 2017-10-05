@@ -1,6 +1,7 @@
 from random import random
 import math
 
+
 class Node:
     # inputs: whether or not it's an output node, and activations of previous layer
     def __init__(self, isOutput, prevActivs):
@@ -26,7 +27,36 @@ class Node:
     
     # node's activation function
     def activFunct(self, weightedSum):
+        # by default, node superclass does not have an activation function
+        return weightedSum
+
+# Backpropagation node subclass
+class BPNode(Node):
+    
+    def __init__(self, isOutput, prevActivs):
+        # call constructor of super
+        Node.__init__(self, isOutput, prevActivs)
+        
+    # use logistic activation function for backprop
+    
         return 1 / (1 + math.pow(math.e, weightedSum))
     
-    def sigma(self):
-        # implement sigma function, or make subclass with different activation function?
+    
+# RBF node subclass
+class RBFNode(Node):
+    
+    def __init__(self, isOutput, prevActivs, center, variance):
+        # call constructor of super
+        Node.__init__(self, isOutput, prevActivs)
+        # assign center and variance to node
+        self.center = center
+        self.variance = variance
+        
+        
+    def activFunct(self, weightedSum):
+        phiValue = 0
+        # TODO: Implement phi for RBF hidden nodes
+        return phiValue
+        
+        
+        
