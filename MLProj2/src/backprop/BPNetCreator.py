@@ -1,8 +1,7 @@
 from shared import node
 
 class BPNetCreator:
-    def __init__(self, inputs, hiddenLayerNum, nodesInHLNum, inNum, outNum):
-        self.inputs
+    def __init__(self, hiddenLayerNum, nodesInHLNum, inNum, outNum):
         self.hiddenLayerNum = hiddenLayerNum
         self.nodesInHLNum = nodesInHLNum
         self.inNum = inNum

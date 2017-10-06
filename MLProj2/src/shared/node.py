@@ -11,13 +11,17 @@ class Node:
         self.activ = -1.0 # default -1 value to show if activation has been set yet
          # initialize random weights
         self.initWeights()
+        
     
     # get activation of this node
-    def getActiv(self, prevActivs):
+    def setActiv(self, prevActivs):
         # if not already done, sum previous activations times weights, and pass into activation function
         if self.activ == -1.0:
             weightedSum = sum([prev * weight for prev in prevActivs for weight in self.weights])
             self.activ = self.activFunct(weightedSum)
+    
+    #get activation of this node        
+    def getActiv(self):
         return self.activ
     
     # initialize random weights
