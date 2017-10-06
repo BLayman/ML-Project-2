@@ -9,8 +9,8 @@ class ForwardProp:
         self.hypothesis = self.calcHypothesis()
         
     def calcHypothesis(self):
-        prevActivs = [] # list of previous activations
-        nextActivs = [] # to be used as previous activations in next iteration
+        prevActivs = [] # list of activations from previous layer
+        currentActivs = [] # to be used as previous activations in next iteration
         # first layer
         for i in range(len(self.network[0])):
             # initial activations are based on inputs
@@ -22,10 +22,10 @@ class ForwardProp:
             for i in range(len(self.network[j])):
                 # set activations based on previous activations
                 self.network[j][i].setActiv(prevActivs)
-                # store activations in nextActivs list
-                nextActivs.append(self.network[j][i].getActiv())
-            # prevActivs takes on values in nextActivs for next layer
-            prevActivs = nextActivs
+                # store activations in currentActivs list
+                currentActivs.append(self.network[j][i].getActiv())
+            # prevActivs takes on values in currentActivs for next layer
+            prevActivs = currentActivs
         
         return self.network[len(self.network) - 1].getActiv()
     
