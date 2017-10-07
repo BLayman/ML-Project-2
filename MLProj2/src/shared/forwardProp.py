@@ -1,11 +1,11 @@
 import math
 
 class ForwardProp:
-    def __init__(self, network, inputs, expectedOut):
-        self.expectedOut = expectedOut
+    def __init__(self, network, inputs, expectedOuts):
+        self.expectedOuts = expectedOuts
         self.network = network
         self.inputs = inputs
-        self.hypothesis = -1.0 # will store hypothesis
+        self.hypothesis = [] # will store list of outputs
         # calculate hypothesis
         self.calcHypothesis()
         
@@ -29,15 +29,22 @@ class ForwardProp:
                 currentActivs.append(self.network[j][i].getActiv())
             # prevActivs takes on values in currentActivs for next layer
             prevActivs = currentActivs
-        
-        self.hypothesis = self.network[len(self.network) - 1][0].getActiv()
+            currentActivs = []
+        # generate outputs
+        self.hypothesis = prevActivs
     
             
-    def getMeanSquaredError(self):
-        return math.pow((self.hypothesis - self.expectedOut), 2)
+    def getTotalMeanSquaredError(self):
+        error = 0
+        for i in range(len(self.expectedOuts)):
+            error += math.pow((self.expectedOuts[i] - self.hypothesis[i]), 2)
+        return error
     
-    def getSubtractionError (self):
-        return self.expectedOut - self.hypothesis
+    def getSubtractionErrorArray (self):
+        errors = []
+        for i in range(len(self.expectedOuts)):
+            errors.append(self.expectedOuts[i] - self.hypothesis[i]) 
+        return errors
     
     def getHypothesis(self):
         return self.hypothesis

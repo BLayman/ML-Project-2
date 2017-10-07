@@ -3,18 +3,15 @@ from shared.forwardProp import ForwardProp
 
 class BPAlg:
     
-    def __init__(self):
-        self.test()
-        
-    def test(self):
-        inputs = [10]
-        expected = .1
-        netCreator = BPNetCreator(2,2,len(inputs),1)
+    def train(self, inputs, expectedOutputs, hiddenLayerNum, nodesInHLNum):
+        netCreator = BPNetCreator(hiddenLayerNum,nodesInHLNum,len(inputs),len(expectedOutputs))
         network = netCreator.create()
-        forwardProp = ForwardProp(network,inputs,expected)
+        forwardProp = ForwardProp(network,inputs,expectedOutputs)
         hypothesis = forwardProp.getHypothesis()
         print("hypothesis: " + str(hypothesis))
-        error = forwardProp.getSubtractionError()
-        print("subtraction error: " + str(error))
+        errors = forwardProp.getSubtractionErrorArray()
+        print("subtraction errors: " + str(errors))
 
+#test functionality
 bpAlg = BPAlg()
+bpAlg.train([10], [.1, .2, .3], 2, 2)
