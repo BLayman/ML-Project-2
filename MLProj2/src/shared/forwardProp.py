@@ -5,8 +5,9 @@ class ForwardProp:
         self.expectedOut = expectedOut
         self.network = network
         self.inputs = inputs
+        self.hypothesis = -1.0 # will store hypothesis
         # calculate hypothesis
-        self.hypothesis = self.calcHypothesis()
+        self.calcHypothesis()
         
     def calcHypothesis(self):
         prevActivs = [] # list of activations from previous layer
@@ -15,6 +16,7 @@ class ForwardProp:
         for i in range(len(self.network[0])):
             # initial activations are based on inputs
             self.network[0][i].setActiv(self.inputs)
+            print("1st layer activ: " + str(self.network[0][i].getActiv()))
             prevActivs.append(self.network[0][i].getActiv())
         
         # other layers
@@ -22,15 +24,22 @@ class ForwardProp:
             for i in range(len(self.network[j])):
                 # set activations based on previous activations
                 self.network[j][i].setActiv(prevActivs)
+                print("hidden or output layer activ: " + str(self.network[j][i].getActiv()))
                 # store activations in currentActivs list
                 currentActivs.append(self.network[j][i].getActiv())
             # prevActivs takes on values in currentActivs for next layer
             prevActivs = currentActivs
         
-        return self.network[len(self.network) - 1].getActiv()
+        self.hypothesis = self.network[len(self.network) - 1][0].getActiv()
     
             
-    def getError(self):
+    def getMeanSquaredError(self):
         return math.pow((self.hypothesis - self.expectedOut), 2)
+    
+    def getSubtractionError (self):
+        return self.expectedOut - self.hypothesis
+    
+    def getHypothesis(self):
+        return self.hypothesis
             
             
