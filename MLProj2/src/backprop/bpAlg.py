@@ -1,5 +1,6 @@
 from backprop.bpNetCreator import BPNetCreator
 from shared.forwardProp import ForwardProp
+from backprop.backProp import BackProp
 
 class BPAlg:
     
@@ -9,8 +10,9 @@ class BPAlg:
         forwardProp = ForwardProp(network,inputs,expectedOutputs)
         hypothesis = forwardProp.getHypothesis()
         print("hypothesis: " + str(hypothesis))
-        errors = forwardProp.getSubtractionErrorArray()
+        errors = forwardProp.getErrorArray()
         print("subtraction errors: " + str(errors))
+        # backprop = BackProp(errors, network)
 
 #test functionality
 bpAlg = BPAlg()

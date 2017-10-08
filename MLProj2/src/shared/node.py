@@ -4,15 +4,23 @@ import math
 # Node superclass
 class Node:
     # inputs: whether or not it's an output node, and activations of previous layer
-    def __init__(self, isOutput, weightNum):
+    def __init__(self, weightNum):
         # instance variables
         self.weightNum = weightNum # number of input weights
-        self.isOutput = isOutput # may be nice for simplifying ForwardProp
         self.weights = [] # input edge weights
-        self.activ = -1.0 # default -1 value to show if activation has been set yet
+        self.delta = -1.0 # default -1 value to show that delta has been set yet
+        self.activ = -1.0 # default -1 value to show that activation has been set yet
         # initialize random weights
         self.initWeights()
         
+    def setDelta(self, delta):
+        self.delta = delta
+        
+    def getDelta(self):
+        return self.delta
+    
+    def getWeights(self):
+        return self.weights
     
     # get activation of this node
     def setActiv(self, prevActivs):
@@ -41,9 +49,9 @@ class Node:
 # Backpropagation node subclass
 class BPNode(Node):
     
-    def __init__(self, isOutput, weightNum):
+    def __init__(self, weightNum):
         # call constructor of super
-        Node.__init__(self, isOutput, weightNum)
+        Node.__init__(self, weightNum)
         
     # use logistic activation function for backprop
     def activFunct(self, weightedSum):
@@ -53,9 +61,9 @@ class BPNode(Node):
 # RBF node subclass
 class RBFNode(Node):
     
-    def __init__(self, isOutput, weightNum, center, variance):
+    def __init__(self, weightNum, center, variance):
         # call constructor of super
-        Node.__init__(self, isOutput, weightNum)
+        Node.__init__(self, weightNum)
         # assign center and variance to node
         self.center = center
         self.variance = variance

@@ -1,4 +1,5 @@
 import math
+from _ast import If
 
 class ForwardProp:
     def __init__(self, network, inputs, expectedOuts):
@@ -27,25 +28,31 @@ class ForwardProp:
                 print("hidden or output layer activ: " + str(self.network[j][i].getActiv()))
                 # store activations in currentActivs list
                 currentActivs.append(self.network[j][i].getActiv())
+                # if we are in output layer, set output delta
+                if (j == len(self.network)):
+                    self.network[j][i].setDelta(self.network[j][i].getActiv() - self.expectedOuts[i])
             # prevActivs takes on values in currentActivs for next layer
             prevActivs = currentActivs
             currentActivs = []
-        # generate outputs
+        # outputs are final activations
         self.hypothesis = prevActivs
     
-            
+    # for use in test phase
     def getTotalMeanSquaredError(self):
         error = 0
         for i in range(len(self.expectedOuts)):
             error += math.pow((self.expectedOuts[i] - self.hypothesis[i]), 2)
         return error
     
-    def getSubtractionErrorArray (self):
+    # for debugging (delta's already set for output layer)
+    def getErrorArray (self):
         errors = []
         for i in range(len(self.expectedOuts)):
-            errors.append(self.expectedOuts[i] - self.hypothesis[i]) 
+            # output deltas are simply difference between the hypothesis and the expected output
+            errors.append(self.hypothesis[i] - self.expectedOuts[i]) 
         return errors
     
+    # for debugging
     def getHypothesis(self):
         return self.hypothesis
             
