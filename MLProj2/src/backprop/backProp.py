@@ -3,9 +3,11 @@ class BackProp:
     def __init__(self, outputDeltas, network):
         self.outputDeltas = outputDeltas
         self.network = network
-        self.partials = [] # TODO: make partials an input argument
-        
-    def backpropagate(self):
+        self.backPropagate()
+        self.accumulatePartials()
+    
+    # back propagate to get deltas
+    def backPropagate(self):
         # for each hidden layer
         for j in reversed(range(len(self.network))):
             # for each neuron i, in layer j
@@ -21,14 +23,22 @@ class BackProp:
                 # multiply it by the derivative of the activation function to get the next delta
                 delta = error * self.activDeriv(self.network[j][i].getActiv())
                 self.network[j][i].setDelta(delta)
-                
+    
+    # then accumulate partial derivatives for each node 
     def accumulatePartials(self):
+        # for the ith node in the jth layer
         for j in (range(len(self.network))):
             for i in (range(len(self.network[j]))):
-                for k in (range(len(self.network[j+1]))):
-                    self.partials[j][i][k] += self.network[j][i].getActiv() * self.network[j+1][k].getDelta()
+                partials = []
+                # for every node in the previous layer
+                for k in range(len(self.network[j - 1])):
+                    # the partial derivative for the weight connecting i in j to k in j -1 
+                    partial = self.network[j][i].getDelta() * self.network[j-1][k].getActiv()
+                    partials.append(partial)
+                # accumulate list of partials in i of j ( because it contains the corresponding weights
+                self.network[j][i].addPartials(partials)
                 
-                
+    # derivative of activation function                  
     def activDeriv(self, activation):
         return activation * (1.0 - activation)
                 
