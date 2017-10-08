@@ -1,33 +1,23 @@
-import random
+from random import random
 import math
 
 # Node superclass
 class Node:
     # inputs: whether or not it's an output node, and activations of previous layer
-    def __init__(self, weightNum):
+    def __init__(self, isOutput):
         # instance variables
-        self.weightNum = weightNum # number of input weights
+        self.isOutput = isOutput # may be nice for simplifying ForwardProp
         self.weights = [] # input edge weights
-        self.delta = -1.0 # default -1 value to show that delta has been set yet
-        self.activ = -1.0 # default -1 value to show that activation has been set yet
-        # initialize random weights
+        self.activ = -1.0 # default -1 value to show if activation has been set yet
+         # initialize random weights
         self.initWeights()
         
-    def setDelta(self, delta):
-        self.delta = delta
-        
-    def getDelta(self):
-        return self.delta
-    
-    def getWeights(self):
-        return self.weights
     
     # get activation of this node
     def setActiv(self, prevActivs):
         # if not already done, sum previous activations times weights, and pass into activation function
         if self.activ == -1.0:
             weightedSum = sum([prev * weight for prev in prevActivs for weight in self.weights])
-            print("weighted sum: " + str(weightedSum))
             self.activ = self.activFunct(weightedSum)
     
     #get activation of this node        
@@ -36,10 +26,8 @@ class Node:
     
     # initialize random weights
     def initWeights(self):
-        for i in range(self.weightNum):
-            randomNum = random.uniform(-.1,.1)
-            self.weights.append(randomNum)
-            print("weight: " + str(randomNum))
+        for i in range(len(self.prevActivs)):
+            self.weights[i] = random.randrange(-.1,.1)
     
     # node's activation function
     def activFunct(self, weightedSum):
@@ -49,30 +37,27 @@ class Node:
 # Backpropagation node subclass
 class BPNode(Node):
     
-    def __init__(self, weightNum):
+    def __init__(self, isOutput):
         # call constructor of super
-        Node.__init__(self, weightNum)
+        Node.__init__(self, isOutput)
         
     # use logistic activation function for backprop
     def activFunct(self, weightedSum):
-        return 1 / (1 + math.pow(math.e, -1 * weightedSum))
+        return 1 / (1 + math.pow(math.e, weightedSum))
     
     
 # RBF node subclass
 class RBFNode(Node):
-    
-    def __init__(self, weightNum, center, variance):
+    output = 0
+    def __init__(self, isOutput):
         # call constructor of super
-        Node.__init__(self, weightNum)
-        # assign center and variance to node
-        self.center = center
-        self.variance = variance
+        Node.__init__(self, isOutput)
+
         
         
-    def activFunct(self, weightedSum):
-        phiValue = 0
-        # TODO: Implement phi for RBF hidden nodes
-        return phiValue
-        
+    def activFunct(self, inputVal):
+        weightedSum = sum([inp * weight for inp in inputVal for weight in self.weights])
+        self.output = weightedSum
+        return weightedSum
         
         
