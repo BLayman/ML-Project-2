@@ -8,6 +8,7 @@ class Node:
         # instance variables
         self.weightNum = weightNum # number of input weights
         self.weights = [] # input edge weights
+        self.partials  = [] # partial derivatives of weights with respect to error
         self.delta = -1.0 # default -1 value to show that delta has been set yet
         self.activ = -1.0 # default -1 value to show that activation has been set yet
         # initialize random weights
@@ -22,6 +23,10 @@ class Node:
     def getWeights(self):
         return self.weights
     
+    #get activation of this node        
+    def getActiv(self):
+        return self.activ
+    
     # get activation of this node
     def setActiv(self, prevActivs):
         # if not already done, sum previous activations times weights, and pass into activation function
@@ -30,10 +35,14 @@ class Node:
             print("weighted sum: " + str(weightedSum))
             self.activ = self.activFunct(weightedSum)
     
-    #get activation of this node        
-    def getActiv(self):
-        return self.activ
-    
+    def setPartials(self, partials):
+        self.partials = partials
+        
+    # updates weights using partial derivatives and learning rate alpha
+    def updateWeights(self, alpha):
+        for i in range(self.weights):
+            self.weights[i] -= alpha * self.partials[i]
+        
     # initialize random weights
     def initWeights(self):
         for i in range(self.weightNum):
