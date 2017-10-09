@@ -1,7 +1,6 @@
 class BackProp:
     
-    def __init__(self, outputDeltas, network):
-        self.outputDeltas = outputDeltas
+    def __init__(self, network):
         self.network = network
         self.backPropagate()
         self.accumulatePartials()
@@ -14,21 +13,22 @@ class BackProp:
             for i in range(len(self.network[j])):
                 # error inherited from layer j + 1
                 error = 0.0
-                # for each neuron k in layer j + 1
+                # for each neuron k in layer j + 1 (starts as output layer)
                 for k in range(len(self.network[j+1])):
                     # take the ith index in that neurons weight array,
                     # and multiply it by that neuron's delta, then add that product to our error
                     error += self.network[j+1][k].getDelta() * self.network[j+1][k].getWeights()[i]
                 # after error has been obtained, 
                 # multiply it by the derivative of the activation function to get the next delta
+                # TO DO: INSERT IF TO PREVENT THIS STEP FOR THE LAST HIDDEN LAYER?
                 delta = error * self.activDeriv(self.network[j][i].getActiv())
                 self.network[j][i].setDelta(delta)
     
     # then accumulate partial derivatives for each node 
     def accumulatePartials(self):
-        # for the ith node in the jth layer
-        for j in (range(1,len(self.network))):
-            for i in (range(len(self.network[j]))):
+        # from the second hidden layer to the output
+        for j in range(1, len(self.network)):
+            for i in range(len(self.network[j])):
                 partials = [] # list of partial derivatives for weights contained in the ith node
                 # for every node in the previous layer
                 for k in range(len(self.network[j - 1])):

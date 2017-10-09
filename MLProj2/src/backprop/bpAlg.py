@@ -13,10 +13,10 @@ class BPAlg:
         print("hypothesis: " + str(hypothesis))
         errors = forwardProp.getErrorArray()
         print("subtraction errors: " + str(errors))
-        BackProp(errors, network)
+        BackProp(network)
         gradDesc = GradientDescent(network, .1, 1)
         stop = gradDesc.updateWeights()
 
 #test functionality
 bpAlg = BPAlg()
-bpAlg.train([10], [.1, .2, .3], 2, 2)
+bpAlg.train([10], [5], 1, 1)

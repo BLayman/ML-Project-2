@@ -13,10 +13,10 @@ class ForwardProp:
     def calcHypothesis(self):
         prevActivs = [] # list of activations from previous layer
         currentActivs = [] # to be used as previous activations in next iteration
-        # first layer
+        # input layer
         for i in range(len(self.network[0])):
             # initial activations are based on inputs
-            self.network[0][i].setActiv(self.inputs)
+            self.network[0][i].setActiv(self.inputs[i])
             print("1st layer activ: " + str(self.network[0][i].getActiv()))
             prevActivs.append(self.network[0][i].getActiv())
         
@@ -24,18 +24,24 @@ class ForwardProp:
         for j in range(1, len(self.network)):
             for i in range(len(self.network[j])):
                 # set activations based on previous activations
-                self.network[j][i].setActiv(prevActivs)
-                print("hidden or output layer activ: " + str(self.network[j][i].getActiv()))
+                self.network[j][i].calcActiv(prevActivs)
+                print("hidden layer activ: " + str(self.network[j][i].getActiv()))
+                if (j == len(self.network)-1):
+                    print("output layer activ: " + str(self.network[j][i].getActiv()))
                 # store activations in currentActivs list
                 currentActivs.append(self.network[j][i].getActiv())
                 # if we are in output layer, set output delta
-                if (j == len(self.network)):
-                    self.network[j][i].setDelta(self.network[j][i].getActiv() - self.expectedOuts[i])
+                if (j == len(self.network)-1):
+                    self.network[j][i].setDelta(self.calcError(self.network[j][i].getActiv(),self.expectedOuts[i]))
             # prevActivs takes on values in currentActivs for next layer
             prevActivs = currentActivs
             currentActivs = []
         # outputs are final activations
         self.hypothesis = prevActivs
+        
+    # calculated error given output and expected, used to calculate output deltas
+    def calcError(self,output,expected):
+        return math.pow(output - expected,2)
     
     # for use in test phase
     def getTotalMeanSquaredError(self):

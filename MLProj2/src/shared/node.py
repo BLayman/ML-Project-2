@@ -32,8 +32,12 @@ class Node:
     def getPartials(self):
         return self.partials
     
-    # get activation of this node
-    def setActiv(self, prevActivs):
+    # manually set activation for first layer
+    def setActiv(self, activ):
+        self.activ = activ
+    
+    # calculate and set activation of this node
+    def calcActiv(self, prevActivs):
         # if not already done, sum previous activations times weights, and pass into activation function
         if self.activ == -1.0:
             weightedSum = sum([prev * weight for prev in prevActivs for weight in self.weights])
@@ -42,14 +46,17 @@ class Node:
             
     # repeatedly called by BackProp class
     def addPartials(self, partials):
-        self.partialsSum = map(add, self.partialsSum, partials)
+        if(self.partialsSum == []):
+            self.partialsSum = partials
+        else:
+            self.partialsSum = map(add, self.partialsSum, partials)
     
     # called by GradientDescent class
     # updates weights using partial derivatives and learning rate alpha
     def updateWeights(self, alpha, dataSetSize):
         # average out partial derivative from sum
         self.avgPartials = [pSum / dataSetSize for pSum in self.partialsSum]
-        for i in range(self.weights):
+        for i in range(len(self.weights)):
             self.weights[i] -= alpha * self.avgPartials[i]
         
     # initialize random weights
