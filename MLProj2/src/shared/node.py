@@ -25,11 +25,11 @@ class Node:
     def getWeights(self):
         return self.weights
     
-    #get activation of this node        
+    # get activation of this node        
     def getActiv(self):
         return self.activ
     
-    def getPartials(self)
+    def getPartials(self):
         return self.partials
     
     # get activation of this node
@@ -48,9 +48,9 @@ class Node:
     # updates weights using partial derivatives and learning rate alpha
     def updateWeights(self, alpha, dataSetSize):
         # average out partial derivative from sum
-        self.partials = [pSum / dataSetSize for pSum in self.partialsSum]
+        self.avgPartials = [pSum / dataSetSize for pSum in self.partialsSum]
         for i in range(self.weights):
-            self.weights[i] -= alpha * self.partials[i]
+            self.weights[i] -= alpha * self.avgPartials[i]
         
     # initialize random weights
     def initWeights(self):
