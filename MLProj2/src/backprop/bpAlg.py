@@ -1,6 +1,7 @@
 from backprop.bpNetCreator import BPNetCreator
 from shared.forwardProp import ForwardProp
 from backprop.backProp import BackProp
+from shared.gradientDescent import GradientDescent
 
 class BPAlg:
     
@@ -12,7 +13,9 @@ class BPAlg:
         print("hypothesis: " + str(hypothesis))
         errors = forwardProp.getErrorArray()
         print("subtraction errors: " + str(errors))
-        # backprop = BackProp(errors, network)
+        BackProp(errors, network)
+        gradDesc = GradientDescent(network, .1, 1)
+        stop = gradDesc.updateWeights()
 
 #test functionality
 bpAlg = BPAlg()

@@ -9,12 +9,12 @@ class BackProp:
     # back propagate to get deltas
     def backPropagate(self):
         # for each hidden layer
-        for j in reversed(range(len(self.network))):
+        for j in reversed(range(len(self.network)-1)):
             # for each neuron i, in layer j
             for i in range(len(self.network[j])):
                 # error inherited from layer j + 1
                 error = 0.0
-                # for each neuron in layer j + 1
+                # for each neuron k in layer j + 1
                 for k in range(len(self.network[j+1])):
                     # take the ith index in that neurons weight array,
                     # and multiply it by that neuron's delta, then add that product to our error
@@ -27,15 +27,15 @@ class BackProp:
     # then accumulate partial derivatives for each node 
     def accumulatePartials(self):
         # for the ith node in the jth layer
-        for j in (range(len(self.network))):
+        for j in (range(1,len(self.network))):
             for i in (range(len(self.network[j]))):
-                partials = []
+                partials = [] # list of partial derivatives for weights contained in the ith node
                 # for every node in the previous layer
                 for k in range(len(self.network[j - 1])):
                     # the partial derivative for the weight connecting i in j to k in j -1 
                     partial = self.network[j][i].getDelta() * self.network[j-1][k].getActiv()
                     partials.append(partial)
-                # accumulate list of partials in i of j ( because it contains the corresponding weights
+                # accumulate list of partials in i of j ( because it contains the corresponding weights)
                 self.network[j][i].addPartials(partials)
                 
     # derivative of activation function                  
