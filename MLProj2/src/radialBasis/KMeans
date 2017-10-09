@@ -1,49 +1,81 @@
 import random
+import math
 from radialBasis import Cluster
-from asyncio.windows_events import NULL
+
 class KMeans:
     k = 0
-    data_points = [[]]
+    dataPoints = [[]]
     means = []
+    meansIndex = []
     hasChanged = False
-    def __init__(self, data_points, k):
+    def __init__(self, dataPoints, k):
         self.k = k
-        self.data_points = data_points
+        self.dataPoints = dataPoints
         #Creates random indexes without replacement, for our initial centroids
-        means_index = random.sample(range(0,len(self.data_points)), self.k)
-        print(means_index)
+        self.meansIndex = [None for c in range(self.k)]
+        self.meansIndex = random.sample(range(0,len(self.dataPoints)), self.k)
+        print(self.meansIndex)
+        self.means = [Cluster for x in range(self.k)]
         #Creates a new cluster object for each random mean data point
-        for i in range(len(means_index)):
-            self.means.append(Cluster(self.data_points[means_index(i)]))
-    def calc_means(self):
-        print(self.data_points)
-        print(self.means)
-        min_d = NULL
-        min_cluster_index = NULL
-        for i in self.data_points:
-            distance = self.calc_distance(self.data_points[i], self.means[0])
-            min_cluster_index = 0
-            for j in range(j + 1, len(self.means)):
-                distance = self.calc_distance(self.data_points[i], self.means[j].mean)
-                if distance <= min_d:
-                    min_cluster_index = j
-            self.means[min_cluster_index].addPoint(self.data_points[i])
-            min_d = NULL
-            min_cluster_index = NULL
-        if self.hasChanged:
-            for i in self.means:
-                self.means[i].calcCentroid
-                if self.means[i].hasChanged:
-                    self.hasChagned = True
-                self.means[i].cluster_points
+        for i in range(len(self.meansIndex)):
+            temporary = self.meansIndex[i]
+            print (temporary)
+            print("hey")
+            temp = Cluster.Cluster(self.dataPoints[temporary])
+            self.means[i] = temp
+
+    
+    def calcMeans(self):
+        print(self.dataPoints)
+        for k in range(len(self.means)):
+            print(self.means[k].mean)
+       
+        for i in range(len(self.dataPoints)):
+            distance = self.calcDistance(self.dataPoints[i], self.means[0].mean)
+            minD = distance
+            minClusterIndex = 0
+            print(distance)
+            
+            for j in range(1, len(self.means)):
+                distance = self.calcDistance(self.dataPoints[i], self.means[j].mean)
+                print(distance)
+                if distance < minD:
+                    minClusterIndex = j
+                    print("j we had a min")
+                    print(minClusterIndex)
+            tempCluster = self.means[minClusterIndex]
+            if(len(tempCluster.clusterPoints[0]) == 0):
+                tempCluster.clusterPoints[0] = self.dataPoints[i]
+            else:
+                tempCluster.clusterPoints.append(self.dataPoints[i])
+            print(tempCluster.mean)
+            print(tempCluster.clusterPoints)
+            print()
+            #self.means[minClusterIndex].addPoint(self.dataPoints[i])
+            
+            
+        for i in self.means:
+            print(i.mean)
+            print(i.clusterPoints)
+        #if self.hasChanged:
+            #for i in self.means:
+               # self.means[i].calcCentroid
+             #   if self.means[i].hasChanged:
+             #       self.hasChagned = True
+             #   self.means[i].clusterPoints
         
-    def calc_distance(self, d1, d2):
+    def reCluster(self):
+        for i in self.means:
+            i.calcCentroid()
+        self.calcMeans()
+        
+    def calcDistance(self, d1, d2):
         distance = 0.0
-        for i in d1:
+        for i in range(len(d1)):
             # adds the square of the difference of each variable in the data point
-            distance += (d1[i] - d2[i])^2 
+            distance += math.pow((d1[i] - d2[i]),2) 
         #returns the Euclidean distance between two vectors
-        return distance ^ (1/2) 
+        return math.sqrt(distance) 
 
 if __name__ == "__main__":
     data = [[[0, None] for i in range(4)] for j in range(4)]
@@ -52,4 +84,5 @@ if __name__ == "__main__":
         for j in range (4):
             data[i][j] = random.randint(1,10)
     means1 = KMeans(data, 2)
-    means1.calc_means()
+    means1.calcMeans()
+    means1.reCluster()

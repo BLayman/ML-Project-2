@@ -1,6 +1,5 @@
 import random
 import math
-from operator import add
 
 # Node superclass
 class Node:
@@ -9,8 +8,6 @@ class Node:
         # instance variables
         self.weightNum = weightNum # number of input weights
         self.weights = [] # input edge weights
-        self.partials = [] # partial derivatives of weights with respect to error
-        self.partialsSum = []
         self.delta = -1.0 # default -1 value to show that delta has been set yet
         self.activ = -1.0 # default -1 value to show that activation has been set yet
         # initialize random weights
@@ -25,13 +22,6 @@ class Node:
     def getWeights(self):
         return self.weights
     
-    #get activation of this node        
-    def getActiv(self):
-        return self.activ
-    
-    def getPartials(self)
-        return self.partials
-    
     # get activation of this node
     def setActiv(self, prevActivs):
         # if not already done, sum previous activations times weights, and pass into activation function
@@ -39,19 +29,11 @@ class Node:
             weightedSum = sum([prev * weight for prev in prevActivs for weight in self.weights])
             print("weighted sum: " + str(weightedSum))
             self.activ = self.activFunct(weightedSum)
-            
-    # repeatedly called by BackProp class
-    def addPartials(self, partials):
-        self.partialsSum = map(add, self.partialsSum, partials)
     
-    # called by GradientDescent class
-    # updates weights using partial derivatives and learning rate alpha
-    def updateWeights(self, alpha, dataSetSize):
-        # average out partial derivative from sum
-        self.partials = [pSum / dataSetSize for pSum in self.partialsSum]
-        for i in range(self.weights):
-            self.weights[i] -= alpha * self.partials[i]
-        
+    #get activation of this node        
+    def getActiv(self):
+        return self.activ
+    
     # initialize random weights
     def initWeights(self):
         for i in range(self.weightNum):
@@ -91,5 +73,6 @@ class RBFNode(Node):
         phiValue = 0
         # TODO: Implement phi for RBF hidden nodes
         return phiValue
+        
         
         

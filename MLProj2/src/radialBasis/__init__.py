@@ -33,7 +33,7 @@ class RadialBasis:
             self.hiddenNodes.append(RbNodeHidden(self.means[i][0], self.means[i][1]))
     def createOutNodes(self):
         for i in range(self.numOut):
-            self.outputNodes.append(node(True))
+            self.outputNodes.append(node.RBFNode(self.k))
     def calcPhiVals(self):
         for i in self.inputNodes:
             for j in self.hiddenNodes:
