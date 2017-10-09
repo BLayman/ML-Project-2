@@ -11,7 +11,9 @@ class GradientDescent:
             for i in range(len(self.network[j])):
                 self.network[j][i].updateWeights(self.alpha, self.dataSize)
                 partials = self.network[j][i].getPartials()
+                print(partials)
                 for par in partials:
-                    if par > .1:
+                    print("partial: " + str(par))
+                    if (par > .1):
                         stop = False
         return stop

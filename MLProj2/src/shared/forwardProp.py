@@ -17,7 +17,7 @@ class ForwardProp:
         for i in range(len(self.network[0])):
             # initial activations are based on inputs
             self.network[0][i].setActiv(self.inputs[i])
-            print("1st layer activ: " + str(self.network[0][i].getActiv()))
+            # print("1st layer activ: " + str(self.network[0][i].getActiv()))
             prevActivs.append(self.network[0][i].getActiv())
         
         # other layers
@@ -25,9 +25,9 @@ class ForwardProp:
             for i in range(len(self.network[j])):
                 # set activations based on previous activations
                 self.network[j][i].calcActiv(prevActivs)
-                print("hidden layer activ: " + str(self.network[j][i].getActiv()))
-                if (j == len(self.network)-1):
-                    print("output layer activ: " + str(self.network[j][i].getActiv()))
+                # print("hidden layer activ: " + str(self.network[j][i].getActiv()))
+                # if (j == len(self.network)-1):
+                    # print("output layer activ: " + str(self.network[j][i].getActiv()))
                 # store activations in currentActivs list
                 currentActivs.append(self.network[j][i].getActiv())
                 # if we are in output layer, set output delta
