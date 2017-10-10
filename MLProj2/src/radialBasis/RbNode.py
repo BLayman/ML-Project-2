@@ -6,7 +6,7 @@ Created on Oct 8, 2017
 class RbNode:
     inputVector = []
     expectedOut = 0
-    output = []
+    output = 0
     phiValues = []
     
     def __init__(self, inputVector, expectedOut):
