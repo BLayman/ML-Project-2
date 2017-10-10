@@ -1,20 +1,27 @@
 class Cluster:
     mean = []
-    cluster_points = [[]]
     hasChanged = True
     def __init__(self, mean):
         self.mean = mean
+        self.clusterPoints = [[]]
     def addPoint(self, point):
-        self.cluster_points.append(point)
+        self.clusterPoints.append(point)
     def calcCentroid(self):
         count = 0
-        sum = [len(self.cluster_points)]
-        for i in range(len(self.cluster_points)):
-            for j in range(len(self.cluster_points[i])):
-                sum[i] += self.cluster_points[i][j]
+        sum = [0 for x in range(len(self.clusterPoints[0]))]
+        print(len(sum))
+        print(len(self.clusterPoints))
+        print(len(self.clusterPoints[0]))
+        for i in range(len(self.clusterPoints)):
+            for j in range(len(self.clusterPoints[i]) - 1):
+                temp = self.clusterPoints[i]
+                sum[i] += temp[j]
+        print(sum)
         for k in sum:
-            sum[k] /= len(self.cluster_points)
+            k /= float(len(self.clusterPoints))
         if self.mean == sum:
             hasChanged = False
         self.mean = sum
-        self.cluster_points.clear()
+        self.clusterPoints = [[]]
+    def getMean(self):
+        return self.mean

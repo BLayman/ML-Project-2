@@ -100,18 +100,22 @@ class BPNode(Node):
 # RBF node subclass
 class RBFNode(Node):
     
-    def __init__(self, weightNum, center, variance):
+    def __init__(self, weightNum):
         # call constructor of super
         Node.__init__(self, weightNum)
+        self.partialsSum = [weightNum]
+        
         # assign center and variance to node
-        self.center = center
-        self.variance = variance
         
         
-    def activFunct(self, weightedSum):
-        phiValue = 0
-        # TODO: Implement phi for RBF hidden nodes
-        return phiValue
-        
-        
-        
+    def activFunct(self, node):
+        output = 0
+        partials = []
+        for i in range(len(node.phiValues)):
+            #Calculates the output from a  given input
+            output += node.phiValues[i] * self.weights[i]
+            node.output = output
+            #Adds the derivitive with respect to the weight to partialSum
+        for j in range(len(node.phiValues)):
+            partials[i] = (node.expectedOutput - output) * node.phiValue[i]
+        self.addPartials(partials)

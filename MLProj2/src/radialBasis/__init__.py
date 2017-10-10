@@ -1,6 +1,8 @@
 from shared import node
 from radialBasis import RbNode
 from radialBasis import RbNodeHidden
+from shared.gradientDescent import GradientDescent
+from shared.node import Node
 
 
 class RadialBasis:
@@ -33,26 +35,35 @@ class RadialBasis:
             self.hiddenNodes.append(RbNodeHidden(self.means[i][0], self.means[i][1]))
     def createOutNodes(self):
         for i in range(self.numOut):
-            self.outputNodes.append(node(True))
+            self.outputNodes.append(node.RBFNode(self.k))
     def calcPhiVals(self):
-        for i in self.inputNodes:
-            for j in self.hiddenNodes:
-                self.inputNodes[i].addPhi(self.hiddenNode(j))
+        for i in range(len(self.inputNodes)):
+            for j in range(len(self.hiddenNodes)):
+                self.inputNodes[i].addPhi(self.hiddenNode[j])
     def calcOutValues(self):
-        for i in self.inputNodes:
-            for j in self.outputNodes:
-                temp = self.outputNodes[j].activFunct(self.inputNodes[i].phiValues)
-                self.inputNodes[i].output[j] = temp
-    def train(self):
-        pass
+        for i in range(len(self.inputNodes)):
+            for j in range(len(self.outputNodes)):
+                self.outputNodes[j].activeFunct(self.inputNodes[i])
+    def train(self, alpha):
+        network = [[]]
+        for i in range(len(self.outputNodes)):
+            network.append(self.outputNodes[i])
+        descent1 = GradientDescent(network, alpha, len(self.inputNodes))
+        stop = False
+        while stop != True:
+            stop = descent1.updateWeights()
+            for i in range(len(self.outputNodes)):
+                self.outputNodes[i].averagePartials = []
+                self.outputNodes[i].partialsSum = []
+            self.calcOutValues()
     
-    def test(self, inputVector):
+    def test(self, inputVector, expectedOut):
         testPhi = []
-        testOut = []
-        for i in self.hiddenNodes:
-            self.testPhi.append(self.hiddenNodes[i].calcPhi(inputVector))
+        node = RbNode(inputVector, expectedOut)
+        for i in range(len(self.hiddenNodes)):
+            self.testPhi.append(self.hiddenNodes[i].calcPhi(node.inputVector))
         for j in self.outputNodes:
-            self.testOut.append(self.outputNodes.activFunct(self.tempPhi))
-        return testOut    
+            self.outputNodes[j].acvtiveFunct(node)
+        return node.output 
     
         
