@@ -14,13 +14,16 @@ class Node:
         self.delta = -1.0 # default -1 value to show that delta has been set yet
         self.activ = -1.0 # default -1 value to show that activation has been set yet
         # initialize random weights
-        self.initWeights()
+        self.initWeights() # TODO: SWITCH BACK TO REGULAR METHOD
         
     def setDelta(self, delta):
         self.delta = delta
         
     def getDelta(self):
         return self.delta
+    
+    def setPartialsSum(self, pSum):
+        self.partialsSum = pSum
     
     def getWeights(self):
         return self.weights
@@ -32,31 +35,37 @@ class Node:
     def getPartials(self):
         return self.avgPartials
     
+    def getParialsSum(self):
+        return self.partialsSum
+    
     # manually set activation for first layer
     def setActiv(self, activ):
         self.activ = activ
     
     # calculate and set activation of this node
     def calcActiv(self, prevActivs):
-        # if not already done, sum previous activations times weights, and pass into activation function
-        if self.activ == -1.0:
-            weightedSum = sum([prev * weight for prev in prevActivs for weight in self.weights])
-            # print("weighted sum: " + str(weightedSum))
-            self.activ = self.activFunct(weightedSum)
+        # sum previous activations times weights, and pass into activation function
+        weightedSum = 0
+        for i in range(len(self.weights)):
+            weightedSum += self.weights[i] * prevActivs[i]
+        # print("weighted sum: " + str(weightedSum))
+        self.activ = self.activFunct(weightedSum)
             
     # repeatedly called by BackProp class
     def addPartials(self, partials):
-        print("partials array: " + str(partials))
+        #print("partials array: " + str(partials))
         if(self.partialsSum == []):
             self.partialsSum = partials
         else:
-            self.partialsSum = map(add, self.partialsSum, partials)
+            for i in range(len(self.partialsSum)):
+                self.partialsSum[i] += partials[i]
     
     # called by GradientDescent class
     # updates weights using partial derivatives and learning rate alpha
     def updateWeights(self, alpha, dataSetSize):
         # average out partial derivative from sum
         self.avgPartials = [pSum / dataSetSize for pSum in self.partialsSum]
+        
         for i in range(len(self.weights)):
             self.weights[i] -= alpha * self.avgPartials[i]
         
@@ -67,6 +76,10 @@ class Node:
             self.weights.append(randomNum)
             # print("weight: " + str(randomNum))
     
+    def initTestWeights(self):
+        for i in range(self.weightNum):
+            self.weights.append(.1)
+            
     # node's activation function
     def activFunct(self, weightedSum):
         # by default, Node superclass does not have an activation function

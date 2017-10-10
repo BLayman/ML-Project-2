@@ -35,3 +35,4 @@ class BPNetCreator:
         for i in range(self.outNum):
             self.network[self.hiddenLayerNum + 1].append(node.Node(self.nodesInHLNum)) 
         return self.network
+    

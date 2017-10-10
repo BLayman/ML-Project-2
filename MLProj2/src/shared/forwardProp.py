@@ -1,10 +1,14 @@
 import math
 from _ast import If
+from shared.printNetwork import NetworkPrinter
 
 class ForwardProp:
     def __init__(self, network, inputs, expectedOuts):
         self.expectedOuts = expectedOuts
         self.network = network
+        #netPrinter = NetworkPrinter()
+        #print(" -------------- INSIDE FORWARDPROP ---------------------")
+        #netPrinter.printNet(network)
         self.inputs = inputs
         self.hypothesis = [] # will store list of outputs
         # calculate hypothesis
@@ -17,10 +21,10 @@ class ForwardProp:
         for i in range(len(self.network[0])):
             # initial activations are based on inputs
             self.network[0][i].setActiv(self.inputs[i])
-            # print("1st layer activ: " + str(self.network[0][i].getActiv()))
+            print("1st layer activ: " + str(self.network[0][i].getActiv()))
             prevActivs.append(self.network[0][i].getActiv())
         
-        # other layers
+        # hidden and output layers
         for j in range(1, len(self.network)):
             for i in range(len(self.network[j])):
                 # set activations based on previous activations
@@ -38,10 +42,11 @@ class ForwardProp:
             currentActivs = []
         # outputs are final activations
         self.hypothesis = prevActivs
+        print("calculated hypothesis: " + str(self.hypothesis))
         
     # calculated error given output and expected, used to calculate output deltas
     def calcError(self,output,expected):
-        return math.pow(output - expected,2)
+        return output - expected # math.pow(output - expected,2)
     
     # for use in test phase
     def getTotalMeanSquaredError(self):
