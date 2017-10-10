@@ -9,7 +9,7 @@ class Node:
         # instance variables
         self.weightNum = weightNum # number of input weights
         self.weights = [] # input edge weights
-        self.partials = [] # partial derivatives of weights with respect to error
+        self.avgPartials = [] # partial derivatives of weights with respect to error
         self.partialsSum = []
         self.delta = -1.0 # default -1 value to show that delta has been set yet
         self.activ = -1.0 # default -1 value to show that activation has been set yet
@@ -25,39 +25,47 @@ class Node:
     def getWeights(self):
         return self.weights
     
-    #get activation of this node        
+    # get activation of this node        
     def getActiv(self):
         return self.activ
     
-    def getPartials(self)
-        return self.partials
+    def getPartials(self):
+        return self.avgPartials
     
-    # get activation of this node
-    def setActiv(self, prevActivs):
+    # manually set activation for first layer
+    def setActiv(self, activ):
+        self.activ = activ
+    
+    # calculate and set activation of this node
+    def calcActiv(self, prevActivs):
         # if not already done, sum previous activations times weights, and pass into activation function
         if self.activ == -1.0:
             weightedSum = sum([prev * weight for prev in prevActivs for weight in self.weights])
-            print("weighted sum: " + str(weightedSum))
+            # print("weighted sum: " + str(weightedSum))
             self.activ = self.activFunct(weightedSum)
             
     # repeatedly called by BackProp class
     def addPartials(self, partials):
-        self.partialsSum = map(add, self.partialsSum, partials)
+        print("partials array: " + str(partials))
+        if(self.partialsSum == []):
+            self.partialsSum = partials
+        else:
+            self.partialsSum = map(add, self.partialsSum, partials)
     
     # called by GradientDescent class
     # updates weights using partial derivatives and learning rate alpha
     def updateWeights(self, alpha, dataSetSize):
         # average out partial derivative from sum
-        self.partials = [pSum / dataSetSize for pSum in self.partialsSum]
-        for i in range(self.weights):
-            self.weights[i] -= alpha * self.partials[i]
+        self.avgPartials = [pSum / dataSetSize for pSum in self.partialsSum]
+        for i in range(len(self.weights)):
+            self.weights[i] -= alpha * self.avgPartials[i]
         
     # initialize random weights
     def initWeights(self):
         for i in range(self.weightNum):
             randomNum = random.uniform(-.1,.1)
             self.weights.append(randomNum)
-            print("weight: " + str(randomNum))
+            # print("weight: " + str(randomNum))
     
     # node's activation function
     def activFunct(self, weightedSum):
