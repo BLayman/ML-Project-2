@@ -12,9 +12,9 @@ class Node:
         self.avgPartials = [] # partial derivatives of weights with respect to error
         self.partialsSum = []
         self.delta = -1.0 # default -1 value to show that delta has been set yet
-        self.activ = -1.0 # default -1 value to show that activation has been set yet
+        self.activ = 1.0 # default activation
         # initialize random weights
-        self.initWeights() # TODO: SWITCH BACK TO REGULAR METHOD
+        self.initTestWeights() # TODO: SWITCH BACK TO REGULAR METHOD
         
     def setDelta(self, delta):
         self.delta = delta
@@ -61,11 +61,16 @@ class Node:
     
     # called by GradientDescent class
     # updates weights using partial derivatives and learning rate alpha
-    def updateWeights(self, alpha, dataSetSize):
+    def updateWeights(self, alpha, dataSetSize, regParam):
         # average out partial derivative from sum
         self.avgPartials = [pSum / dataSetSize for pSum in self.partialsSum]
         for i in range(len(self.weights)):
-            self.weights[i] -= alpha * self.avgPartials[i]
+            # if not bias term, use regularization
+            if (i != len(self.weights)-1):
+                self.weights[i] -= alpha * ((self.avgPartials[i] + (regParam/dataSetSize) * self.weights[i]))
+            # if bias term, don't use regularization
+            else:
+                self.weights[i] -= alpha * self.avgPartials[i]
         
     # initialize random weights
     def initWeights(self):
