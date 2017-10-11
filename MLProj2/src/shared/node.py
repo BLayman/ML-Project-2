@@ -48,7 +48,6 @@ class Node:
         weightedSum = 0
         for i in range(len(self.weights)):
             weightedSum += self.weights[i] * prevActivs[i]
-        # print("weighted sum: " + str(weightedSum))
         self.activ = self.activFunct(weightedSum)
             
     # repeatedly called by BackProp class
@@ -65,7 +64,6 @@ class Node:
     def updateWeights(self, alpha, dataSetSize):
         # average out partial derivative from sum
         self.avgPartials = [pSum / dataSetSize for pSum in self.partialsSum]
-        
         for i in range(len(self.weights)):
             self.weights[i] -= alpha * self.avgPartials[i]
         
@@ -95,6 +93,16 @@ class BPNode(Node):
     # use logistic activation function for backprop
     def activFunct(self, weightedSum):
         return 1 / (1 + math.pow(math.e, -1 * weightedSum))
+    
+class BiasNode(Node):
+    
+    def __init__(self, weightNum):
+        # call constructor of super
+        Node.__init__(self, weightNum)
+        
+    # activation stays the same in bias nodes
+    def calcActiv(self, prevActivs):
+        self.activ = self.activ
     
     
 # RBF node subclass

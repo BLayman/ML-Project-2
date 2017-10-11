@@ -32,13 +32,13 @@ class BPAlg:
                 #print("------------- Post backward -----------")
                 #netPrinter.printNet(network)
             # after batch learning, run gradient descent
-            gradDesc = GradientDescent(network, .5, len(inputsArray))
+            gradDesc = GradientDescent(network, .1, len(inputsArray))
             stop2 = gradDesc.updateWeights()
-            print("------------- Post Gradient Descent -----------")
-            netPrinter.printNet(network)
+            #print("------------- Post Gradient Descent -----------")
+            #netPrinter.printNet(network)
             print(stop)
 
 #test functionality
 bpAlg = BPAlg()
 #bpAlg.train([[2,0],[0,2]], [[4],[2]], 2, 2)
-bpAlg.train([[2,0],[0,2],[2,2],[4,4]], [[4],[2],[6],[20]], 2, 10)
+bpAlg.train([[-1,-2],[-2,5],[3,3],[4,8]], [[-2],[-4],[6],[8]], 2, 8)
