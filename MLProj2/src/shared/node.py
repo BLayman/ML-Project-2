@@ -77,7 +77,6 @@ class Node:
         for i in range(self.weightNum):
             randomNum = random.uniform(-.1,.1)
             self.weights.append(randomNum)
-            # print("weight: " + str(randomNum))
     
     def initTestWeights(self):
         for i in range(self.weightNum):
@@ -112,23 +111,46 @@ class BiasNode(Node):
     
 # RBF node subclass
 class RBFNode(Node):
-    
+    maxError = 0
     def __init__(self, weightNum):
         # call constructor of super
         Node.__init__(self, weightNum)
-        self.partialsSum = [weightNum]
+        self.weightNum = weightNum
+        self.weights.append(random.uniform(-.1,.1))
+        self.partialsSum = [0] * (weightNum + 1)
         
         # assign center and variance to node
         
         
-    def activFunct(self, node):
+    def activeFunct(self, RbNode, index):
         output = 0
-        partials = []
-        for i in range(len(node.phiValues)):
+        
+        print(RbNode.phiValues)
+        for i in range(len(RbNode.phiValues)):
             #Calculates the output from a  given input
-            output += node.phiValues[i] * self.weights[i]
-            node.output = output
+            output += RbNode.phiValues[i] * self.weights[i]
+        if(len(RbNode.output) == index):
+            RbNode.output.append(output)
+        else:
+            RbNode.output[index] = output
             #Adds the derivitive with respect to the weight to partialSum
-        for j in range(len(node.phiValues)):
-            partials[i] = (node.expectedOutput - output) * node.phiValue[i]
-        self.addPartials(partials)
+        for j in range(len(RbNode.phiValues)):
+            error = (RbNode.expectedOut - output)
+            if error > self.maxError:
+                self.maxError = error
+            temp = self.partialsSum[j]
+            temp += error * RbNode.phiValues[j]
+            self.partialsSum[j] = temp
+        
+    def updateWeights(self, alpha, dataSetSize):   
+        stop = True
+        for k in range(len(self.partialsSum)):
+            self.partialsSum[k] /= float(dataSetSize)
+        self.avgPartials = self.partialsSum
+        print(self.avgPartials)
+        for i in range(len(self.weights)):
+            self.weights[i] += alpha * self.avgPartials[i]
+            if (abs(self.avgPartials[i]) > 0.01):
+                stop = False
+        print(self.weights, "weights")
+        return stop
