@@ -14,7 +14,7 @@ class Node:
         self.delta = -1.0 # default -1 value to show that delta has been set yet
         self.activ = 1.0 # default activation
         # initialize random weights
-        self.initTestWeights() # TODO: SWITCH BACK TO REGULAR METHOD
+        self.initWeights() 
         
     def setDelta(self, delta):
         self.delta = delta

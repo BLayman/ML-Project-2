@@ -3,12 +3,13 @@ from shared.forwardProp import ForwardProp
 from backprop.backProp import BackProp
 from shared.gradientDescent import GradientDescent
 from shared.printNetwork import NetworkPrinter
+import random
 
 class BPAlg:
     
     def train(self, inputsArray, expectedOutputsArray, hiddenLayerNum, nodesInHLNum):
         alpha = .005
-        convergenceEpsilon = .1
+        convergenceEpsilon = .01
         regularizationParam = .1
         netPrinter = NetworkPrinter()
         netCreator = BPNetCreator(hiddenLayerNum,nodesInHLNum,len(inputsArray[0]),len(expectedOutputsArray[0]))
@@ -19,6 +20,7 @@ class BPAlg:
         counter = 0
         while(not stop):
             counter += 1
+            print(counter)
             if (counter > 7000):
                 print("stopped early")
                 break
@@ -29,8 +31,8 @@ class BPAlg:
                 #netPrinter.printNet(network)
                 #hypothesis = forwardProp.getHypothesis()
                 # print("hypothesis: " + str(hypothesis))
-                error = forwardProp.getTotalMeanSquaredError()
-                print("**************           *****************  error  *********************: " + str(error))
+                # error = forwardProp.getTotalMeanSquaredError()
+                #print("**************           *****************  error  *********************: " + str(error))
                 # back propagate
                 BackProp(network)
                 #print("------------- Post backward -----------")
@@ -38,7 +40,7 @@ class BPAlg:
             # after batch learning, run gradient descent
             gradDesc = GradientDescent(network, alpha, len(inputsArray), regularizationParam, convergenceEpsilon)
             stop = gradDesc.updateWeights()
-            print("-------------------")
+            #print("-------------------")
         #print("------------- Post Gradient Descent -----------")
         netPrinter.printNet(network)
         print(stop)
@@ -55,10 +57,27 @@ class BPAlg:
             totalError += error
             print("error: " + str(error))
         print("total error: " + str(totalError))
+        return errors
                 
+trainingXData = []
+trainingYData = []
+testDataX = []
+testDataY = []
 
+for i in range(40):
+    x = random.uniform(0,10)
+    print(x)
+    trainingXData.append([x])
+    trainingYData.append([x*x])
+    
+for i in range(10):
+    x = random.uniform(0,10)
+    testDataX.append([x])
+    testDataY.append([x*x])
+    
+    
 #test functionality
 bpAlg = BPAlg()
-trainedNetwork = bpAlg.train([[1],[3],[6],[10],[15]], [[2],[6],[12],[20],[30]], 2, 10)
-bpAlg.test([[2],[5],[12]],[[4],[10],[24]],trainedNetwork)
+trainedNetwork = bpAlg.train(trainingXData,trainingYData, 2, 10)
+bpAlg.test(testDataX, testDataY, trainedNetwork)
 
