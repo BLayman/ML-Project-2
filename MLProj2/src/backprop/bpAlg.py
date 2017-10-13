@@ -8,7 +8,7 @@ import random
 class BPAlg:
     
     def train(self, inputsArray, expectedOutputsArray, hiddenLayerNum, nodesInHLNum):
-        alpha = .5
+        alpha = .01
         convergenceEpsilon = .001
         regularizationParam = .1
         netPrinter = NetworkPrinter()
@@ -41,8 +41,8 @@ class BPAlg:
             gradDesc = GradientDescent(network, alpha, len(inputsArray), regularizationParam, convergenceEpsilon)
             stop = gradDesc.updateWeights()
             #print("-------------------")
-            print("------------- Post Gradient Descent -----------")
-            netPrinter.printNet(network)
+            #print("------------- Post Gradient Descent -----------")
+            #netPrinter.printNet(network)
         print(stop)
         return network
         

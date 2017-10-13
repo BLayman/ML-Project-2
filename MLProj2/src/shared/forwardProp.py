@@ -43,7 +43,7 @@ class ForwardProp:
         
     # calculated error given output and expected, used to calculate output deltas
     def calcError(self,output,expected):
-        return .001 * math.pow(output - expected, 2) 
+        return .5 * math.pow(output - expected, 2) 
     
     # for use in test phase
     def getTotalMeanSquaredError(self):
