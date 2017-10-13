@@ -125,7 +125,6 @@ class RBFNode(Node):
     def activeFunct(self, RbNode, index):
         output = 0
         
-        print(RbNode.phiValues)
         for i in range(len(RbNode.phiValues)):
             #Calculates the output from a  given input
             output += RbNode.phiValues[i] * self.weights[i]

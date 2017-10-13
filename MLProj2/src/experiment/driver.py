@@ -14,6 +14,7 @@ arg7: # of data points
 from scipy import stats
 from generatedata import GenerateData as GD
 from backprop.bpAlg import BPAlg as BP
+from radialBasis.radialBasisOut import radialBasisOut as RFB
 # from radialBasis.rfbAlg import RFBAlg as RFB
 import sys
 
