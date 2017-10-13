@@ -4,10 +4,12 @@ Created on Oct 12, 2017
 @author: Carsen
 '''
 from shared import node
+from radialBasis import KMeans
 from radialBasis import RbNode
 from radialBasis import RbNodeHidden
 from shared.gradientDescent import GradientDescent
 from shared.node import Node
+import math
 
 
 class radialBasisOut:
@@ -19,25 +21,27 @@ class radialBasisOut:
     inputNodes = []
     hiddenNodes = []
     outputNodes = []
-    def __init__(self, dataPoints, expectedOutput,k,numOut,means):
+    alpha = 1
+    #accepts a [[]] of data points, a [] of expected outputs corresponding to each data point, integer for k means, integer for number of output nodes
+    #a [[]] of test points, and a [] of outputs for the test points. 
+    #Returns a [[]] of errors with the inner array[i] corresponding to the errors of each test point, for each i'th output node 
+    def __init__(self, dataPoints, expectedOutput,k,numOut, testPoints, testExpectedOut):
         self.dataPoints = dataPoints
         self.expectedOutput = expectedOutput
         self.k = k
         self.numOut = numOut
-        self.means = means
+        means1 = KMeans.KMeans(dataPoints, k)
+        means1.calcMeans()
+        means1.reCluster()
+        self.means = means1.calcSigma()
         self.inputNodes = [RbNode] * len(dataPoints)
         self.createInputNodes()
         self.createHiddenNodes()
         self.createOutNodes()
         self.calcPhiVals()
         self.calcOutValues()
-        self.train(1)
-        print(self.outputNodes[0].weights, "final weights")
-        print()
-        print(self.test([-.1,-.1], .009))
-        print(self.test([-.1,-.5], -0.11499999999999999))
-        print(self.test([.7,.2], .49799999999999994))
-        
+        self.train(self.alpha)
+        return self.test(testPoints, testExpectedOut)        
     #kmeans will return a means[] list, with coresponding tuples, with sigma
     
     def createInputNodes(self):
@@ -86,15 +90,23 @@ class radialBasisOut:
             self.calcOutValues()
             count += 1
         print("rate", count)
-    def test(self, inputVector, expectedOut):
-        testPhi = []
-        node = RbNode.RbNode(inputVector, expectedOut, self.k)
-        for i in range(len(self.hiddenNodes)):
-            testPhi.append(self.hiddenNodes[i].calcPhi(node.inputVector))
-        testPhi.append(1)
-        node.phiValues = testPhi
+    def test(self, inputVectors, expectedOut):
+        nodes = []
+        testErrors = [[0] for i in range(len(inputVectors))] * range(self.numOut)
+        for i in(len(inputVectors)):
+            testPhi = []
+            node = RbNode.RbNode(inputVectors, expectedOut, self.k)
+            for i in range(len(self.hiddenNodes)):
+                testPhi.append(self.hiddenNodes[i].calcPhi(node.inputVector))
+            testPhi.append(1)
+            node.phiValues = testPhi
+            nodes.append(node)
+
         for j in range(len(self.outputNodes)):
-            self.outputNodes[j].activeFunct(node, j)
-        return node.output
+            for i in range(len(nodes)):
+                out = self.outputNodes[j].activeFunct(nodes[i], j)
+                nodes[i].outputs[j] = out
+                testErrors[j][i] = .5 * math.pow((expectedOut[i] - out), 2)
+        return testErrors
     
         
