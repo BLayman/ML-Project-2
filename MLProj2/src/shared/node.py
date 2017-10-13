@@ -7,18 +7,27 @@ class Node:
     # inputs: whether or not it's an output node, and activations of previous layer
     def __init__(self, weightNum):
         # instance variables
+        self.errorDiff = 0.0
         self.weightNum = weightNum # number of input weights
         self.weights = [] # input edge weights
         self.avgPartials = [] # partial derivatives of weights with respect to error
+        self.prevWeightChanges = []
         self.partialsSum = []
         self.delta = -1.0 # default -1 value to show that delta has been set yet
         self.activ = 1.0 # default activation
         # initialize random weights
         self.initWeights() 
+        #self.initTestWeights()
         
     def setDelta(self, delta):
         self.delta = delta
         
+    def setErrorDiff(self, errorDiff):
+        self.errorDiff = errorDiff
+        
+    def getErrorDiff(self):
+        return self.errorDiff
+    
     def getDelta(self):
         return self.delta
     
@@ -62,26 +71,38 @@ class Node:
     # called by GradientDescent class
     # updates weights using partial derivatives and learning rate alpha
     def updateWeights(self, alpha, dataSetSize, regParam):
+        momentumParam = 0
+        currWeightChanges = []
         # average out partial derivative from sum
         self.avgPartials = [pSum / dataSetSize for pSum in self.partialsSum]
         for i in range(len(self.weights)):
             # if not bias term, use regularization
             if (i != len(self.weights)-1):
-                self.weights[i] -= alpha * ((self.avgPartials[i] + (regParam/dataSetSize) * self.weights[i]))
+                weightChange = -alpha * ((self.avgPartials[i] + (regParam/dataSetSize) * self.weights[i]))
+                self.weights[i] += weightChange
+                currWeightChanges.append(weightChange)
             # if bias term, don't use regularization
             else:
-                self.weights[i] -= alpha * self.avgPartials[i]
+                weightChange = -alpha * self.avgPartials[i]
+                self.weights[i] += weightChange
+                currWeightChanges.append(weightChange)
+            # add momentum
+            if(len(self.prevWeightChanges) > 0):
+                #print("add momentum: " + str(self.prevWeightChanges[i]))
+                self.weights[i] += momentumParam * (self.prevWeightChanges[i])      
+        self.prevWeightChanges = currWeightChanges
+                
         
     # initialize random weights
     def initWeights(self):
         for i in range(self.weightNum):
-            randomNum = random.uniform(-.1,.1)
+            randomNum = random.uniform(-.5,.5)
             self.weights.append(randomNum)
             # print("weight: " + str(randomNum))
     
     def initTestWeights(self):
         for i in range(self.weightNum):
-            self.weights.append(.1)
+            self.weights.append(-.1)
             
     # node's activation function
     def activFunct(self, weightedSum):

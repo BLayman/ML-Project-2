@@ -8,8 +8,8 @@ import random
 class BPAlg:
     
     def train(self, inputsArray, expectedOutputsArray, hiddenLayerNum, nodesInHLNum):
-        alpha = .005
-        convergenceEpsilon = .01
+        alpha = .5
+        convergenceEpsilon = .001
         regularizationParam = .1
         netPrinter = NetworkPrinter()
         netCreator = BPNetCreator(hiddenLayerNum,nodesInHLNum,len(inputsArray[0]),len(expectedOutputsArray[0]))
@@ -21,7 +21,7 @@ class BPAlg:
         while(not stop):
             counter += 1
             print(counter)
-            if (counter > 7000):
+            if (counter > 1000):
                 print("stopped early")
                 break
             # forward propagate
@@ -29,10 +29,10 @@ class BPAlg:
                 forwardProp = ForwardProp(network,inputsArray[i],expectedOutputsArray[i])
                 #print("------------- Post forward -----------")
                 #netPrinter.printNet(network)
-                #hypothesis = forwardProp.getHypothesis()
-                # print("hypothesis: " + str(hypothesis))
-                # error = forwardProp.getTotalMeanSquaredError()
-                #print("**************           *****************  error  *********************: " + str(error))
+                hypothesis = forwardProp.getHypothesis()
+                #print("hypothesis: " + str(hypothesis))
+                error = forwardProp.getTotalMeanSquaredError()
+                print("**************           *****************  error  *********************: " + str(error))
                 # back propagate
                 BackProp(network)
                 #print("------------- Post backward -----------")
@@ -41,8 +41,8 @@ class BPAlg:
             gradDesc = GradientDescent(network, alpha, len(inputsArray), regularizationParam, convergenceEpsilon)
             stop = gradDesc.updateWeights()
             #print("-------------------")
-        #print("------------- Post Gradient Descent -----------")
-        netPrinter.printNet(network)
+            print("------------- Post Gradient Descent -----------")
+            netPrinter.printNet(network)
         print(stop)
         return network
         
@@ -64,7 +64,7 @@ trainingYData = []
 testDataX = []
 testDataY = []
 
-for i in range(40):
+for i in range(10):
     x = random.uniform(0,10)
     print(x)
     trainingXData.append([x])
@@ -78,6 +78,6 @@ for i in range(10):
     
 #test functionality
 bpAlg = BPAlg()
-trainedNetwork = bpAlg.train(trainingXData,trainingYData, 2, 10)
+trainedNetwork = bpAlg.train(trainingXData,trainingYData, 2, 4)
 bpAlg.test(testDataX, testDataY, trainedNetwork)
 
