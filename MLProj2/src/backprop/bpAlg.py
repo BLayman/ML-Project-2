@@ -9,7 +9,7 @@ class BPAlg:
     
     def train(self, inputsArray, expectedOutputsArray, hiddenLayerNum, nodesInHLNum):
         alpha = .005
-        convergenceEpsilon = .001
+        convergenceEpsilon = .01
         regularizationParam = .1
         netPrinter = NetworkPrinter()
         netCreator = BPNetCreator(hiddenLayerNum,nodesInHLNum,len(inputsArray[0]),len(expectedOutputsArray[0]))
@@ -21,7 +21,7 @@ class BPAlg:
         while(not stop):
             counter += 1
             print(counter)
-            if (counter > 1000):
+            if (counter > 2000):
                 print("stopped early")
                 break
             # forward propagate
@@ -78,6 +78,6 @@ for i in range(10):
     
 #test functionality
 bpAlg = BPAlg()
-trainedNetwork = bpAlg.train(trainingXData,trainingYData, 2, 6)
+trainedNetwork = bpAlg.train(trainingXData,trainingYData, 2, 8)
 bpAlg.test(testDataX, testDataY, trainedNetwork)
 
