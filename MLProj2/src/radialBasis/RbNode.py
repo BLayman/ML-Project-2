@@ -5,13 +5,16 @@ Created on Oct 8, 2017
 '''
 class RbNode:
     inputVector = []
+    k = 0
     expectedOut = 0
-    output = 0
+    output = [0] * k
     phiValues = []
     
-    def __init__(self, inputVector, expectedOut):
+    def __init__(self, inputVector, expectedOut, k):
         self.inputVector = inputVector
         self.expectedOut = expectedOut
+        self.phiValues = [0] * k
+        self.k = k 
     
-    def addPhi(self, rbNodeHid):
-        self.phiValues.append(rbNodeHid.calcPhi(self.inputVector))
+    def addPhi(self, rbNodeHid,j):
+        self.phiValues[j] = rbNodeHid.calcPhi(self.inputVector)
