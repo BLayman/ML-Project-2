@@ -33,7 +33,7 @@ class ForwardProp:
                 currentActivs.append(self.network[j][i].getActiv())
                 # if we are in output layer, set output delta
                 if (j == len(self.network)-1):
-                    self.network[j][i].setErrorDiff(self.network[j][i].getActiv()-self.expectedOuts[i])
+                    #self.network[j][i].setErrorDiff(self.network[j][i].getActiv()-self.expectedOuts[i])
                     self.network[j][i].setDelta(self.calcError(self.network[j][i].getActiv(),self.expectedOuts[i]))
             # prevActivs takes on values in currentActivs for next layer
             prevActivs = currentActivs
@@ -43,7 +43,7 @@ class ForwardProp:
         
     # calculated error given output and expected, used to calculate output deltas
     def calcError(self,output,expected):
-        return .5 * math.pow(output - expected, 2) 
+        return output - expected 
     
     # for use in test phase
     def getTotalMeanSquaredError(self):

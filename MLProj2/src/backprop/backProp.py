@@ -36,15 +36,9 @@ class BackProp:
                 partials = [] # list of partial derivatives for weights contained in the ith node
                 # for every weight in the nodes weight array
                 for k in range(len(self.network[j][i].getWeights())):
-                    # if in output layer, calculate special partial
-                    if (j == len(self.network)-1):
-                        partial = self.network[j][i].getErrorDiff() * self.network[j-1][k].getActiv()
-                        partials.append(partial)
-                    # if in hidden layers:
-                    else:    
-                        # the partial derivative for the weight connecting i in j to k in j -1 
-                        partial = self.network[j][i].getDelta() * self.network[j-1][k].getActiv()
-                        partials.append(partial)
+                    # the partial derivative for the weight connecting i in j to k in j -1 
+                    partial = self.network[j][i].getDelta() * self.network[j-1][k].getActiv()
+                    partials.append(partial)
                 # accumulate list of partials in i of j ( because it contains the corresponding weights)
                 self.network[j][i].addPartials(partials)
                 

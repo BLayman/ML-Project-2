@@ -8,7 +8,7 @@ import random
 class BPAlg:
     
     def train(self, inputsArray, expectedOutputsArray, hiddenLayerNum, nodesInHLNum):
-        alpha = .01
+        alpha = .005
         convergenceEpsilon = .001
         regularizationParam = .1
         netPrinter = NetworkPrinter()
@@ -32,7 +32,7 @@ class BPAlg:
                 hypothesis = forwardProp.getHypothesis()
                 #print("hypothesis: " + str(hypothesis))
                 error = forwardProp.getTotalMeanSquaredError()
-                print("**************           *****************  error  *********************: " + str(error))
+                #print("**************           *****************  error  *********************: " + str(error))
                 # back propagate
                 BackProp(network)
                 #print("------------- Post backward -----------")
@@ -64,7 +64,7 @@ trainingYData = []
 testDataX = []
 testDataY = []
 
-for i in range(10):
+for i in range(40):
     x = random.uniform(0,10)
     print(x)
     trainingXData.append([x])
@@ -78,6 +78,6 @@ for i in range(10):
     
 #test functionality
 bpAlg = BPAlg()
-trainedNetwork = bpAlg.train(trainingXData,trainingYData, 2, 4)
+trainedNetwork = bpAlg.train(trainingXData,trainingYData, 2, 6)
 bpAlg.test(testDataX, testDataY, trainedNetwork)
 
