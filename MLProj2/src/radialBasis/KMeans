@@ -1,7 +1,7 @@
 import random
 import math
 from radialBasis import Cluster
-from radialBasis import RadialBasis
+from radialBasis import radialBasisOut
 
 class KMeans:
     k = 0
@@ -109,6 +109,6 @@ if __name__ == "__main__":
     means1.calcMeans()
     means1.reCluster()
     means1Sigma = means1.calcSigma()
-    radialBasis1 = RadialBasis(data1, expectedOut, 5, 1,means1Sigma)
+    radialBasis1 = radialBasisOut.radialBasisOut(data1, expectedOut, 5, 1,means1Sigma)
     
 
