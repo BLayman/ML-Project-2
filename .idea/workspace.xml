@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="aaff6081-526e-4ce4-92b3-89df5762a180" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MLProj2/src/backprop/bpAlg.py" afterPath="$PROJECT_DIR$/MLProj2/src/backprop/bpAlg.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MLProj2/src/radialBasis/radialBasisOut.py" afterPath="$PROJECT_DIR$/MLProj2/src/radialBasis/radialBasisOut.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MLProj2/src/shared/node.py" afterPath="$PROJECT_DIR$/MLProj2/src/shared/node.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,33 +19,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="RbNodeHidden.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MLProj2/src/radialBasis/RbNodeHidden.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="node.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="node.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MLProj2/src/shared/node.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="175" column="19" lean-forward="true" selection-start-line="175" selection-start-column="19" selection-end-line="175" selection-end-column="19" />
+            <state relative-caret-position="285">
+              <caret line="19" column="31" lean-forward="false" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
+                <marker date="1508016489000" expanded="true" signature="4550:6560" ph="..." />
+                <marker date="1508016489000" expanded="true" signature="4604:4824" ph="..." />
+                <marker date="1508016489000" expanded="true" signature="6540:6560" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RbNode.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RbNode.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MLProj2/src/radialBasis/RbNode.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="285">
+              <caret line="19" column="63" lean-forward="true" selection-start-line="19" selection-start-column="63" selection-end-line="19" selection-end-column="63" />
               <folding />
             </state>
           </provider>
@@ -91,8 +87,8 @@
       <file leaf-file-name="bpAlg.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MLProj2/src/backprop/bpAlg.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="32" lean-forward="true" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+            <state relative-caret-position="180">
+              <caret line="12" column="32" lean-forward="false" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
               <folding>
                 <element signature="e#0#46#0" expanded="true" />
               </folding>
@@ -140,6 +136,10 @@
         <option value="$PROJECT_DIR$/BackProp.py" />
         <option value="$PROJECT_DIR$/RadialBasis.py" />
         <option value="$PROJECT_DIR$/KMeans.py" />
+        <option value="$PROJECT_DIR$/MLProj2/src/radialBasis/RbNodeHidden.py" />
+        <option value="$PROJECT_DIR$/MLProj2/src/radialBasis/radialBasisOut.py" />
+        <option value="$PROJECT_DIR$/MLProj2/src/shared/node.py" />
+        <option value="$PROJECT_DIR$/MLProj2/src/radialBasis/RbNode.py" />
       </list>
     </option>
   </component>
@@ -309,7 +309,15 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/MLProj2/src/radialBasis/RbNodeHidden.py</url>
+          <line>7</line>
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="2" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -488,37 +496,48 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MLProj2/src/backprop/bpAlg.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="32" lean-forward="true" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+        <state relative-caret-position="180">
+          <caret line="12" column="32" lean-forward="false" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
           <folding>
             <element signature="e#0#46#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MLProj2/src/radialBasis/RbNode.py">
+    <entry file="file://$PROJECT_DIR$/MLProj2/src/radialBasis/RbNodeHidden.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="90">
+          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MLProj2/src/radialBasis/RbNodeHidden.py">
+    <entry file="file://$PROJECT_DIR$/MLProj2/src/radialBasis/radialBasisOut.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="150">
+          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MLProj2/src/shared/node.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="175" column="19" lean-forward="true" selection-start-line="175" selection-start-column="19" selection-end-line="175" selection-end-column="19" />
+        <state relative-caret-position="285">
+          <caret line="19" column="31" lean-forward="false" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+            <marker date="1508016489000" expanded="true" signature="4550:6560" ph="..." />
+            <marker date="1508016489000" expanded="true" signature="4604:4824" ph="..." />
+            <marker date="1508016489000" expanded="true" signature="6540:6560" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MLProj2/src/radialBasis/RbNode.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="63" lean-forward="true" selection-start-line="19" selection-start-column="63" selection-end-line="19" selection-end-column="63" />
+          <folding />
         </state>
       </provider>
     </entry>

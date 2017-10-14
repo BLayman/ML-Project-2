@@ -9,6 +9,12 @@ from radialBasis import RbNode
 from radialBasis import RbNodeHidden
 from experiment import generate_data
 import math
+import pandas as pd
+import plotly.plotly as py
+import plotly.graph_objs as gr
+from matplotlib import pyplot as plt
+from pandas.core.indexing import _IXIndexer
+
 
 
 class radialBasisOut:
@@ -20,6 +26,7 @@ class radialBasisOut:
     inputNodes = []
     hiddenNodes = []
     outputNodes = []
+    errors =[]
     alpha = 1
     #accepts a [[]] of data points, a [] of expected outputs corresponding to each data point, integer for k means, integer for number of output nodes
     def __init__(self, dataPoints, expectedOutput,k,numOut,alpha):
@@ -71,26 +78,28 @@ class radialBasisOut:
         for i in range(len(self.outputNodes)):
             network[0][i] = self.outputNodes[i]
         #descent1 = GradientDescent(network, alpha, len(self.inputNodes))
-        
         stop = False
         count = 0
         while stop != True:
             stop = True
-            for i in range(len(self.outputNodes)):
-                self.outputNodes[i].averagePartials = []
-                self.outputNodes[i].partialsSum = [0] * (self.k + 1)
             self.calcOutValues()
+            for i in range(len(self.outputNodes)):
+                self.errors.append(.5 * math.pow(self.outputNodes[i].errorcount / len(self.inputNodes),2)) 
+                #self.errors.append(self.outputNodes[i].errorcount / len(self.inputNodes))  
             for i in range(len(self.outputNodes)):
                 stop = self.outputNodes[i].updateWeights(1,len(self.inputNodes))
                 #if (self.outputNodes[i].maxError > 0.001):
                 #   print(self.outputNodes[i].maxError, "maxE")
                  #   stop = False
-            self.calcOutValues()
+            #self.calcOutValues()
             count += 1
+            if(count > 50):
+                stop = True
         print("rate", count)
+        self.graphErrors()
     def test(self, inputVectors, expectedOut):
         nodes = []
-        testErrors = [[0] for i in range(len(inputVectors))] * self.numOut
+        testErrors = []
         for i in range(len(inputVectors)):
             testPhi = []
             node = RbNode.RbNode(inputVectors[i], expectedOut[i], self.k)
@@ -101,27 +110,37 @@ class radialBasisOut:
             nodes.append(node)
 
         for j in range(len(self.outputNodes)):
+            sumerrors = 0
             for i in range(len(nodes)):
                 self.outputNodes[j].activeFunct(nodes[i], j)
                 out = nodes[i].output[j]
-                #testErrors[j][i] = .5 * math.pow((expectedOut[i] - out), 2)
-                print(expectedOut[i] - out, "difference")
-                print(.5 * math.pow((expectedOut[i] - out), 2), "meanSquared")
+                sumerrors += .5 * math.pow((expectedOut[i] - out), 2)
+                print(out)
+                print(expectedOut[i])
+                print(out - expectedOut[i], "difference")
+                print(.5 * math.pow((out - expectedOut[i]), 2), "meanSquared")
                 print()
-        #return testErrors
-    
+            testErrors.append(sumerrors / len(self.outputNodes))
+        return testErrors
+    def graphErrors(self):
+        print("error", self.errors)
+        xIndex  = [range(len(self.errors) +1 )]
+        plt.plot(self.errors)
+        plt.show()
+                
 if __name__ == "__main__":    
-    data1 = generate_data.GenerateData(100, 3)
+    data1 = generate_data.GenerateData(1000, 2)
     data1.stratified_sample(10)
     input = data1.get_data()
     expected = data1.get_target_vector()
-    data2 = generate_data.GenerateData(25, 3)
+    data2 = generate_data.GenerateData(20, 2)
     data2.stratified_sample(10)
     test = data2.get_data()
     testOut = data2.get_target_vector()
     print(input)
-    rb1 = radialBasisOut(input, expected,20,1,5)
+    rb1 = radialBasisOut(input, expected,100,1,.005)
     rb1.createNetwork()
     print(rb1.outputNodes[0].weights)
     rb1.test(test, testOut)
+
     #print(errors[0])

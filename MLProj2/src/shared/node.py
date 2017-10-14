@@ -132,45 +132,54 @@ class BiasNode(Node):
     
 # RBF node subclass
 class RBFNode(Node):
-    maxError = 0
+    errorcount = 0
     def __init__(self, weightNum):
         # call constructor of super
         Node.__init__(self, weightNum)
         self.weightNum = weightNum
         self.weights.append(random.uniform(-.1,.1))
         self.partialsSum = [0] * (weightNum + 1)
+        self.prevWeightChanges = [0] * (weightNum + 1)
+        
         
         # assign center and variance to node
         
         
     def activeFunct(self, RbNode, index):
         output = 0
-        
+
         for i in range(len(RbNode.phiValues)):
             #Calculates the output from a  given input
-            output += RbNode.phiValues[i] * self.weights[i]
+            output += (RbNode.phiValues[i] * self.weights[i])
+        self.errorcount += (output - RbNode.expectedOut)
         if(len(RbNode.output) == index):
             RbNode.output.append(output)
         else:
             RbNode.output[index] = output
             #Adds the derivitive with respect to the weight to partialSum
         for j in range(len(RbNode.phiValues)):
-            error = (RbNode.expectedOut - output)
-            if error > self.maxError:
-                self.maxError = error
+            error = (output - RbNode.expectedOut)
             temp = self.partialsSum[j]
             temp += error * RbNode.phiValues[j]
             self.partialsSum[j] = temp
         
     def updateWeights(self, alpha, dataSetSize):   
+        Node.updateWeights(self, alpha, dataSetSize, 1)
         stop = True
         for k in range(len(self.partialsSum)):
-            self.partialsSum[k] /= float(dataSetSize)
+            self.partialsSum[k] /= float(dataSetSize + 1)
         self.avgPartials = self.partialsSum
         print(self.avgPartials)
         for i in range(len(self.weights)):
-            self.weights[i] += alpha * self.avgPartials[i]
+            self.weights[i] -= (alpha * self.avgPartials[i]) + (alpha * self.prevWeightChanges[i])
+            
+            self.prevWeightChanges[i] = -(((1-alpha) * self.avgPartials[i]) + (alpha * self.prevWeightChanges[i]))
             if (abs(self.avgPartials[i]) > 0.01):
                 stop = False
+        self.averagePartials = []
+        
+        self.partialsSum.clear()
+        self.partialsSum = [0] * (self.weightNum + 1)
         print(self.weights, "weights")
+        stop = False
         return stop

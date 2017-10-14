@@ -76,10 +76,8 @@ for i in range(10):
     x = random.uniform(0,10)
     testDataX.append([x])
     testDataY.append([x*x])
-    
-    
+
 #test functionality
 bpAlg = BPAlg()
 trainedNetwork = bpAlg.train(trainingXData,trainingYData, 2, 8)
 bpAlg.test(testDataX, testDataY, trainedNetwork)
-
