@@ -1,3 +1,5 @@
+import math
+
 class BackProp:
     
     def __init__(self, network):

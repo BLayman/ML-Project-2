@@ -12,9 +12,9 @@ arg7: # of data points
 """
 
 from scipy import stats
-from generatedata import GenerateData as GD
+from generate_data import GenerateData as GD
 from backprop.bpAlg import BPAlg as BP
-from radialBasis.RbNodeOut import RadialBasis as RFB
+from radialBasis.radialBasisOut import radialBasisOut as RFB
 import sys
 
 
@@ -39,7 +39,7 @@ def get_variance(error = [], mean = -1):
 def compare(bp_mean, bp_var, rbf_mean, rfb_var, size):
     if not bp_var or not rfb_var:
         return
-    t = (bp_mean - rfb_mean) / math.sqrt((bp_var / size) + rfb_var / size))
+    t = (bp_mean - rfb_mean) / math.sqrt((bp_var / size) + (rfb_var / size))
     pval = 2 * stats.t.sf(math.abs(t), size - 1)
     if pval >= 0.05:
         pass # No significant difference

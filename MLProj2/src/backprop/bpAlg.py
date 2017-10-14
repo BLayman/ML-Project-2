@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from backprop.bpNetCreator import BPNetCreator
 from shared.forwardProp import ForwardProp
 from backprop.backProp import BackProp
@@ -21,7 +23,7 @@ class BPAlg:
         while(not stop):
             counter += 1
             print(counter)
-            if (counter > 7000):
+            if (counter > 2000):
                 print("stopped early")
                 break
             # forward propagate
@@ -29,9 +31,9 @@ class BPAlg:
                 forwardProp = ForwardProp(network,inputsArray[i],expectedOutputsArray[i])
                 #print("------------- Post forward -----------")
                 #netPrinter.printNet(network)
-                #hypothesis = forwardProp.getHypothesis()
-                # print("hypothesis: " + str(hypothesis))
-                # error = forwardProp.getTotalMeanSquaredError()
+                hypothesis = forwardProp.getHypothesis()
+                #print("hypothesis: " + str(hypothesis))
+                error = forwardProp.getTotalMeanSquaredError()
                 #print("**************           *****************  error  *********************: " + str(error))
                 # back propagate
                 BackProp(network)
@@ -41,8 +43,8 @@ class BPAlg:
             gradDesc = GradientDescent(network, alpha, len(inputsArray), regularizationParam, convergenceEpsilon)
             stop = gradDesc.updateWeights()
             #print("-------------------")
-        #print("------------- Post Gradient Descent -----------")
-        netPrinter.printNet(network)
+            #print("------------- Post Gradient Descent -----------")
+            #netPrinter.printNet(network)
         print(stop)
         return network
         
@@ -78,6 +80,6 @@ for i in range(10):
     
 #test functionality
 bpAlg = BPAlg()
-trainedNetwork = bpAlg.train(trainingXData,trainingYData, 2, 10)
+trainedNetwork = bpAlg.train(trainingXData,trainingYData, 2, 8)
 bpAlg.test(testDataX, testDataY, trainedNetwork)
 
