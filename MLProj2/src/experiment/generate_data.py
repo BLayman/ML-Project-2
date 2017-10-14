@@ -12,14 +12,6 @@ class GenerateData():
         self.data = []
         self.target_vector = []
 
-    def calculate_parameters(self):
-        points_per_axis = int(math.pow(self.points, (1 / self.parameter_count)))
-        range_exp = round(points_per_axis / 2)
-        if range_exp > 11:
-            self.generate_data(10, points_per_axis)
-        else:
-            self.generate_data(range_exp, points_per_axis)
-
     def stratified_sample(self, interval = 10):
         ppi = int(self.points / (interval * 2))
         step = -interval

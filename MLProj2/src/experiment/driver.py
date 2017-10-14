@@ -14,7 +14,7 @@ arg7: # of data points
 from scipy import stats
 from generatedata import GenerateData as GD
 from backprop.bpAlg import BPAlg as BP
-# from radialBasis.rfbAlg import RFBAlg as RFB
+from radialBasis.RbNodeOut import RadialBasis as RFB
 import sys
 
 
@@ -60,8 +60,7 @@ if __name__ == "__main__":
         train_target = train.get_target_vector()
         bp = BP()
         bp_network = bp.train(data, target, int(sys.arv[2]), int(sys.argv[3], int(sys.argv[4])))
-        rfb = RFB()
-        rfb_network = rfb.train(data, target, int(sys.argv[5]), int(sys.argv[6]))
+        rfb = RFB(data, target, int(sys.argv[5]), int(sys.argv[6]))
 
         test = GD(int(sys.argv[7]), int(sys.argv[1]))
         test_data = test.get_data()
@@ -70,7 +69,7 @@ if __name__ == "__main__":
         bp_error = bp.test(test_data, test_target, bp_network)
         bp_mean = get_mean(bp_error)
         
-        rfb_error = rfb.test(test_data, test_target, rfb_network)
+        rfb_error = rfb.test(test_data, test_target)
         rfb_mean = get_mean(rfb_error)
 
         results = compare(bp_mean, get_variance(bp_mean, bp_error), rfb_mean, get_variance(rfb_mean, rfb_error), len(test_data))
