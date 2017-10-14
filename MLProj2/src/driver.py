@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+#####
+# Moving testing into experiment while keeping driver as self-described
+#####
+
 """
 arg0: Invoking script
 arg1: # of parameters for the rosenbrock function
@@ -12,7 +16,7 @@ arg7: # of data points
 """
 
 from scipy import stats
-from generate_data import GenerateData as GD
+from experiment.generate_data import GenerateData as GD
 from backprop.bpAlg import BPAlg as BP
 from radialBasis.radialBasisOut import radialBasisOut as RFB
 import sys
