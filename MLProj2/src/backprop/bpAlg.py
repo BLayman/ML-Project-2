@@ -6,12 +6,13 @@ from backprop.backProp import BackProp
 from shared.gradientDescent import GradientDescent
 from shared.printNetwork import NetworkPrinter
 import random
-import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
 
 class BPAlg:
 
     def train(self, inputsArray, expectedOutputsArray, hiddenLayerNum, nodesInHLNum):
-        alpha = .005 # 0.005
+        plotErrors = []
+        alpha = .005
         convergenceEpsilon = .01
         regularizationParam = .1
         netPrinter = NetworkPrinter()
@@ -35,7 +36,8 @@ class BPAlg:
                 #netPrinter.printNet(network)
                 hypothesis = forwardProp.getHypothesis()
                 #print("hypothesis: " + str(hypothesis))
-                error += forwardProp.getTotalMeanSquaredError()
+                error = forwardProp.getTotalSquaredError()
+                plotErrors.append(error)
                 #print("**************           *****************  error  *********************: " + str(error))
                 # back propagate
                 BackProp(network)
@@ -50,7 +52,7 @@ class BPAlg:
             #print("------------- Post Gradient Descent -----------")
             #netPrinter.printNet(network)
         print(stop)
-        plt.axis([0, 2001, 0, 10000])
+        plt.plot(plotErrors)
         plt.show()
         return network
         
@@ -59,7 +61,7 @@ class BPAlg:
         totalError = 0
         for i in range(len(inputsArray)):
             forwardProp = ForwardProp(network, inputsArray[i], expectedOutputsArray[i])
-            error = forwardProp.getTotalMeanSquaredError()
+            error = forwardProp.getTotalSquaredError()
             errors.append(error)
         for error in errors:
             totalError += error
@@ -73,16 +75,17 @@ trainingYData = []
 testDataX = []
 testDataY = []
 
-for i in range(40):
+for i in range(50):
     x = random.uniform(0,10)
     print(x)
     trainingXData.append([x])
-    trainingYData.append([x*x])
+    trainingYData.append([x*x/x])
     
 for i in range(10):
     x = random.uniform(0,10)
     testDataX.append([x])
-    testDataY.append([x*x])
+    testDataY.append([x*x/x])
+
 
 #test functionality
 bpAlg = BPAlg()
