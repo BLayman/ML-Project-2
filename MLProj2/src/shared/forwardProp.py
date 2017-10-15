@@ -5,9 +5,9 @@ class ForwardProp:
     def __init__(self, network, inputs, expectedOuts):
         self.expectedOuts = expectedOuts
         self.network = network
-        #netPrinter = NetworkPrinter()
-        #print(" -------------- INSIDE FORWARDPROP ---------------------")
-        #netPrinter.printNet(network)
+        # netPrinter = NetworkPrinter()
+        # print(" -------------- INSIDE FORWARDPROP ---------------------")
+        # netPrinter.printNet(network)
         self.inputs = inputs
         self.hypothesis = [] # will store list of outputs
         # calculate hypothesis

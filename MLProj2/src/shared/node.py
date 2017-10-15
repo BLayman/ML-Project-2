@@ -151,9 +151,7 @@ class RBFNode(Node):
         for i in range(len(RbNode.phiValues)):
             #Calculates the output from a  given input
             output += (RbNode.phiValues[i] * self.weights[i])
-        print(output)
-        print(RbNode.expectedOut[0])
-        self.errorcount += (output - RbNode.expectedOut[0])
+        self.errorcount += ((RbNode.expectedOut[0] - output)**2)
         if(len(RbNode.output) == index):
             RbNode.output.append(output)
         else:
@@ -165,8 +163,9 @@ class RBFNode(Node):
             #print("phival", RbNode.phiValues[j])
             self.partialsSum[j] += error * RbNode.phiValues[j]
         #print("phi", RbNode.phiValues)
-        print(output, " out")
-        print(RbNode.expectedOut, "ex")
+        #print(output, " out")
+        #print(RbNode.expectedOut, "ex")
+        #print((RbNode.expectedOut[0] - output)**2)
     def updateWeights(self, alpha, dataSetSize):   
         Node.updateWeights(self, alpha, dataSetSize, 1)
         stop = True
@@ -174,7 +173,7 @@ class RBFNode(Node):
         for k in range(len(self.partialsSum)):
             self.partialsSum[k] /= float(dataSetSize + 1)
         self.avgPartials = self.partialsSum
-        print("avg partials", self.avgPartials)
+        #print("avg partials", self.avgPartials)
         for i in range(len(self.weights)):
             self.weights[i] -= (alpha * self.avgPartials[i]) 
             #+ (alpha * self.prevWeightChanges[i])
@@ -186,6 +185,6 @@ class RBFNode(Node):
         
         self.partialsSum.clear()
         self.partialsSum = [0] * (self.weightNum + 1)
-        print(self.weights, "weights")
+        #print(self.weights, "weights")
         stop = False
         return stop

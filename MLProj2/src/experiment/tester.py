@@ -28,7 +28,7 @@ class Tester():
         if not error: return
         difference_sum = 0
         for e in error:
-            difference_sum == ((e - mean)**2)
+            difference_sum += ((e - mean)**2)
         return difference_sum / len(error)        
 
     def get_mean(self):
@@ -51,19 +51,20 @@ class Tester():
 
     # Null hypothesis: There is no difference
     def compare(self):
-        if not self.error2: return
+        if not self.e2: return
         t = (self.mean1 - self.mean2) / math.sqrt((self.var1 / len(self.e1)) + (self.var2 / len(self.e2)))
         if len(self.e1) > len(self.e2):
             pval = 2 * stats.t.sf(abs(t), len(self.e2) - 1)
         else: 
             pval = 2 * stats.t.sf(abs(t), len(self.e2) - 1)
         if pval > 0.05:
-            results = None # No significant difference
+            self.output_comparison_results(("There was no statistically significant difference between %s and %s" % (self.desc1, self.desc2), pval)) # No significant difference
         else:
-            results = None # There is a significant difference
-        self.output_comparison_results(results)
+            self.output_comparison_results(("There was a statistically significant difference between %s and %s" % (self.desc1, self.desc2), pval)) # No significant difference
 
     def output_comparison_results(self, results = None):
         if not results: return # Send Logic Error
-        return # Do something useful
+        print("%s with p-value: %s" % (results[0], results[1])) # Do something useful
+        print("For %s we had mean %f and variance %f." % (self.desc1, self.mean1, self.var1))
+        print("For %s we had mean %f and variance %f." % (self.desc2, self.mean2, self.var2))
 

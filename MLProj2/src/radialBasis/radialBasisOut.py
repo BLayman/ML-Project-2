@@ -59,11 +59,11 @@ class radialBasisOut:
             #temp = RbNode.RbNode(temp1, expected, self.k)
             self.inputNodes[i] = RbNode.RbNode(self.dataPoints[i], self.expectedOutput[i], self.k)
     def createHiddenNodes(self):
-        print(len(self.means))
+        #print(len(self.means))
         for i in range(len(self.means)):
             self.hiddenNodes.append(RbNodeHidden.RbNodeHidden(self.means[i][0], self.means[i][1]))
             #self.hiddenNodes.append(RbNodeHidden.RbNodeHidden(self.means[i][0], 5))
-        print(len(self.hiddenNodes))
+        #print(len(self.hiddenNodes))
     def createOutNodes(self):
         for i in range(self.numOut):
             self.outputNodes.append(node.RBFNode(self.k))
@@ -72,7 +72,7 @@ class radialBasisOut:
             for j in range(len(self.hiddenNodes)):
                 self.inputNodes[i].addPhi(self.hiddenNodes[j], j, len(self.dataPoints))
             self.inputNodes[i].phiValues.append(1)
-            print(self.inputNodes[i].phiValues)
+            #print(self.inputNodes[i].phiValues)
             
     def calcOutValues(self):
         for i in range(len(self.inputNodes)):
@@ -101,10 +101,10 @@ class radialBasisOut:
                  #   stop = False
             #self.calcOutValues()
             count += 1
-            if(count >100):
+            if(count > 1000):
                 stop = True
-        print("rate", count)
-        self.graphErrors(self.errors)
+        #print("rate", count)
+        #self.graphErrors(self.errors)
     def test(self, inputVectors, expectedOut):
         nodes = []
         testErrors = []
@@ -123,11 +123,11 @@ class radialBasisOut:
                 self.outputNodes[j].activeFunct(nodes[i], j)
                 out = nodes[i].output[j]
                 sumerrors += .5 * math.pow((expectedOut[i][0] - out), 2)
-                print(out)
-                print(expectedOut[i][0])
-                print(out - expectedOut[i][0], "difference")
-                print(.5 * math.pow((out - expectedOut[i][0]), 2), "meanSquared")
-                print()
+                #print(out)
+                #print(expectedOut[i][0])
+                #print(out - expectedOut[i][0], "difference")
+                # print(.5 * math.pow((out - expectedOut[i][0]), 2), "meanSquared")
+                #print()
                 testErrors.append(sumerrors / len(self.outputNodes))
         return testErrors
     def graphErrors(self, error):
@@ -136,7 +136,7 @@ class radialBasisOut:
         plt.show()
     #def graphTer(self,tErr):
         #test1 = tester.Tester(tErr)
-              
+"""              
 if __name__ == "__main__":    
     
     data1 = generate_data.GenerateData(1000, 6)
@@ -159,6 +159,6 @@ if __name__ == "__main__":
     rb1 = radialBasisOut(train, [[1],[2],[3],[4],[2],[3],[4]],2,1,.0005)
     rb1.createNetwork()
     '''
-    
+""" 
 
 
