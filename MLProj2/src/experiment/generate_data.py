@@ -14,7 +14,7 @@ class GenerateData():
         self.target_vector = []
 
     def stratified_sample(self, interval = 10):
-        ppi = int(self.points / (interval * 2))
+        ppi = float(self.points / (interval * 2))
         step = -interval
         for point in range(self.points):
             self.data.append([])

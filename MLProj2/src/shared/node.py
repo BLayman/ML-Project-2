@@ -98,7 +98,7 @@ class Node:
         for i in range(self.weightNum):
             randomNum = random.uniform(-.5,.5)
             self.weights.append(randomNum)
-    
+
     def initTestWeights(self):
         for i in range(self.weightNum):
             self.weights.append(-.1)
@@ -159,21 +159,25 @@ class RBFNode(Node):
             #Adds the derivitive with respect to the weight to partialSum
         for j in range(len(RbNode.phiValues)):
             error = (output - RbNode.expectedOut)
-            temp = self.partialsSum[j]
-            temp += error * RbNode.phiValues[j]
-            self.partialsSum[j] = temp
-        
+            #print("error", error)
+            #print("phival", RbNode.phiValues[j])
+            self.partialsSum[j] += error * RbNode.phiValues[j]
+        #print("phi", RbNode.phiValues)
+        print(output, " out")
+        print(RbNode.expectedOut, "ex")
     def updateWeights(self, alpha, dataSetSize):   
         Node.updateWeights(self, alpha, dataSetSize, 1)
         stop = True
+        #print(self.partialsSum)
         for k in range(len(self.partialsSum)):
             self.partialsSum[k] /= float(dataSetSize + 1)
         self.avgPartials = self.partialsSum
-        print(self.avgPartials)
+        print("avg partials", self.avgPartials)
         for i in range(len(self.weights)):
-            self.weights[i] -= (alpha * self.avgPartials[i]) + (alpha * self.prevWeightChanges[i])
+            self.weights[i] -= (alpha * self.avgPartials[i]) 
+            #+ (alpha * self.prevWeightChanges[i])
             
-            self.prevWeightChanges[i] = -(((1-alpha) * self.avgPartials[i]) + (alpha * self.prevWeightChanges[i]))
+            #self.prevWeightChanges[i] = -(((1-alpha) * self.avgPartials[i]) + (alpha * self.prevWeightChanges[i]))
             if (abs(self.avgPartials[i]) > 0.01):
                 stop = False
         self.averagePartials = []
