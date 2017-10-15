@@ -12,10 +12,10 @@ class Tester():
         self.desc2 = e2_desc
         self.e1 = error1
         self.e2 = error2
-        self.mean1 = calc_mean(self.e1)
-        self.mean2 = calc_mean(self.e2)
-        self.var1 = calc_variance(self.e1, self.mean1)
-        self.var2 = calc_variance(self.e2, self.mean2)
+        self.mean1 = self.calc_mean(self.e1)
+        self.mean2 = self.calc_mean(self.e2)
+        self.var1 = self.calc_variance(self.e1, self.mean1)
+        self.var2 = self.calc_variance(self.e2, self.mean2)
 
     def calc_mean(self, error):
         if not error: return
