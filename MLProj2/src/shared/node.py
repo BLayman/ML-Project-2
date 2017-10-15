@@ -137,7 +137,7 @@ class RBFNode(Node):
         # call constructor of super
         Node.__init__(self, weightNum)
         self.weightNum = weightNum
-        self.weights.append(random.uniform(-.1,.1))
+        self.weights.append(random.uniform(-5,5))
         self.partialsSum = [0] * (weightNum + 1)
         self.prevWeightChanges = [0] * (weightNum + 1)
         
@@ -151,14 +151,16 @@ class RBFNode(Node):
         for i in range(len(RbNode.phiValues)):
             #Calculates the output from a  given input
             output += (RbNode.phiValues[i] * self.weights[i])
-        self.errorcount += (output - RbNode.expectedOut)
+        print(output)
+        print(RbNode.expectedOut[0])
+        self.errorcount += (output - RbNode.expectedOut[0])
         if(len(RbNode.output) == index):
             RbNode.output.append(output)
         else:
             RbNode.output[index] = output
             #Adds the derivitive with respect to the weight to partialSum
         for j in range(len(RbNode.phiValues)):
-            error = (output - RbNode.expectedOut)
+            error = (output - RbNode.expectedOut[0])
             #print("error", error)
             #print("phival", RbNode.phiValues[j])
             self.partialsSum[j] += error * RbNode.phiValues[j]
