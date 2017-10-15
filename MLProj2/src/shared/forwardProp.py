@@ -46,7 +46,7 @@ class ForwardProp:
         return output - expected 
     
     # for use in test phase
-    def getTotalMeanSquaredError(self):
+    def getTotalSquaredError(self):
         error = 0
         for i in range(len(self.expectedOuts)):
             error += math.pow((self.expectedOuts[i] - self.hypothesis[i]), 2)
