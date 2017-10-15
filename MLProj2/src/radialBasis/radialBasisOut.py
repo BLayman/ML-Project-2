@@ -88,7 +88,7 @@ class radialBasisOut:
             self.calcOutValues()
             for i in range(len(self.outputNodes)):
                 
-                self.errors.append(.5 * math.pow(self.outputNodes[i].errorcount / len(self.inputNodes),2)) 
+                self.errors.append(.5 * (math.pow(self.outputNodes[i].errorcount / (100000 * len(self.inputNodes)),2))) 
                 #self.errors.append(self.outputNodes[i].errorcount/len(self.inputNodes))
                 self.outputNodes[i].errorcount = 0
                 #self.errors.append(self.outputNodes[i].errorcount / len(self.inputNodes))  
@@ -99,10 +99,10 @@ class radialBasisOut:
                  #   stop = False
             #self.calcOutValues()
             count += 1
-            if(count > 100):
+            if(count >200):
                 stop = True
         print("rate", count)
-        self.graphErrors()
+        self.graphErrors(self.errors)
     def test(self, inputVectors, expectedOut):
         nodes = []
         testErrors = []
@@ -126,13 +126,11 @@ class radialBasisOut:
                 print(out - expectedOut[i], "difference")
                 print(.5 * math.pow((out - expectedOut[i]), 2), "meanSquared")
                 print()
-            testErrors.append(sumerrors / len(self.outputNodes))
+                testErrors.append(sumerrors / len(self.outputNodes))
         return testErrors
-    def graphErrors(self):
-        print("error", self.errors)
-        xIndex  = [range(len(self.errors) +1 )]
-        self.errors[0] = self.errors[1]
-        plt.plot(self.errors)
+    def graphErrors(self, error):
+        error[0] = error[1]
+        plt.plot(error)
         plt.show()
 """                
 if __name__ == "__main__":    
@@ -148,7 +146,13 @@ if __name__ == "__main__":
     rb1 = radialBasisOut(input, expected,1,1,.005)
     rb1.createNetwork()
     print(rb1.outputNodes[0].weights)
+<<<<<<< HEAD
     #rb1.test(test, testOut)
 
     #print(errors[0])
 """
+=======
+    testErrors = rb1.test(test, testOut)
+    print(testErrors)
+    #rb1.graphErrors(testerrors)
+>>>>>>> 169ad9cc8996c7ba725a8857d0abe5047d79706f
