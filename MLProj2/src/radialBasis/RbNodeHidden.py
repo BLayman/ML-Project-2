@@ -20,7 +20,7 @@ class RbNodeHidden:
                 #distance += math.pow((inputVector[i] - self.mean[i]), 2)
                 distance += math.pow((self.mean[i] - inputVector[i] ), 2)
         #phi = math.exp(-distance/(2 * self.sigma * self.sigma))
-        phi = math.exp(-1 * math.pow((math.pow(distance,.5) * .1/(2 * self.sigma * self.sigma)), 2))
+        phi = math.exp(-1 * math.pow((math.pow(distance,.5) /(2 * self.sigma * self.sigma)), 2))
         return phi
             
     
