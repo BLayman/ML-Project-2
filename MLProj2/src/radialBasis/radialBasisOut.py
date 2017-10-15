@@ -8,6 +8,7 @@ from radialBasis import KMeans
 from radialBasis import RbNode
 from radialBasis import RbNodeHidden
 from experiment import generate_data
+#from experiment.tester import Tester
 import math
 import pandas as pd
 import plotly.plotly as py
@@ -49,6 +50,7 @@ class radialBasisOut:
         self.createOutNodes()
         self.calcPhiVals()
         self.calcOutValues()
+        
         self.train(self.alpha)
     def createInputNodes(self):
         for i in range(len(self.dataPoints)):
@@ -68,7 +70,7 @@ class radialBasisOut:
     def calcPhiVals(self):
         for i in range(len(self.inputNodes)):
             for j in range(len(self.hiddenNodes)):
-                self.inputNodes[i].addPhi(self.hiddenNodes[j], j)
+                self.inputNodes[i].addPhi(self.hiddenNodes[j], j, len(self.dataPoints))
             self.inputNodes[i].phiValues.append(1)
             print(self.inputNodes[i].phiValues)
             
@@ -88,7 +90,7 @@ class radialBasisOut:
             self.calcOutValues()
             for i in range(len(self.outputNodes)):
                 
-                self.errors.append(.5 * (math.pow(self.outputNodes[i].errorcount / (100000 * len(self.inputNodes)),2))) 
+                self.errors.append(.5 * (math.pow(self.outputNodes[i].errorcount / (len(self.inputNodes)),2))) 
                 #self.errors.append(self.outputNodes[i].errorcount/len(self.inputNodes))
                 self.outputNodes[i].errorcount = 0
                 #self.errors.append(self.outputNodes[i].errorcount / len(self.inputNodes))  
@@ -99,7 +101,7 @@ class radialBasisOut:
                  #   stop = False
             #self.calcOutValues()
             count += 1
-            if(count >200):
+            if(count >100):
                 stop = True
         print("rate", count)
         self.graphErrors(self.errors)
@@ -110,7 +112,7 @@ class radialBasisOut:
             testPhi = []
             node = RbNode.RbNode(inputVectors[i], expectedOut[i], self.k)
             for i in range(len(self.hiddenNodes)):
-                testPhi.append(self.hiddenNodes[i].calcPhi(node.inputVector))
+                testPhi.append(self.hiddenNodes[i].calcPhi(node.inputVector, len(inputVectors)))
             testPhi.append(1)
             node.phiValues = testPhi
             nodes.append(node)
@@ -120,11 +122,11 @@ class radialBasisOut:
             for i in range(len(nodes)):
                 self.outputNodes[j].activeFunct(nodes[i], j)
                 out = nodes[i].output[j]
-                sumerrors += .5 * math.pow((expectedOut[i] - out), 2)
+                sumerrors += .5 * math.pow((expectedOut[i][0] - out), 2)
                 print(out)
-                print(expectedOut[i])
-                print(out - expectedOut[i], "difference")
-                print(.5 * math.pow((out - expectedOut[i]), 2), "meanSquared")
+                print(expectedOut[i][0])
+                print(out - expectedOut[i][0], "difference")
+                print(.5 * math.pow((out - expectedOut[i][0]), 2), "meanSquared")
                 print()
                 testErrors.append(sumerrors / len(self.outputNodes))
         return testErrors
@@ -132,22 +134,31 @@ class radialBasisOut:
         error[0] = error[1]
         plt.plot(error)
         plt.show()
-"""                
+    #def graphTer(self,tErr):
+        #test1 = tester.Tester(tErr)
+              
 if __name__ == "__main__":    
-    data1 = generate_data.GenerateData(100, 2)
+    
+    data1 = generate_data.GenerateData(1000, 6)
     data1.stratified_sample(10)
     input = data1.get_data()
     expected = data1.get_target_vector()
-    data2 = generate_data.GenerateData(10, 2)
+    data2 = generate_data.GenerateData(10, 3)
     data2.stratified_sample(10)
     test = data2.get_data()
     testOut = data2.get_target_vector()
     print(input)
-    rb1 = radialBasisOut(input, expected,1,1,.005)
+    rb1 = radialBasisOut(input, expected,200,1,.0005)
     rb1.createNetwork()
     print(rb1.outputNodes[0].weights)
-    #rb1.test(test, testOut)
+    errors = rb1.test(test, testOut)
+    
+    #print(errors)
+    '''
+    train = [[1,1], [2,2], [3,3], [4,4], [0,1], [2,3], [5,1]]
+    rb1 = radialBasisOut(train, [[1],[2],[3],[4],[2],[3],[4]],2,1,.0005)
+    rb1.createNetwork()
+    '''
+    
 
-    #print(errors[0])
-"""
 

@@ -16,5 +16,5 @@ class RbNode:
         self.phiValues = [0] * k
         self.k = k 
     
-    def addPhi(self, rbNodeHid,j):
-        self.phiValues[j] = rbNodeHid.calcPhi(self.inputVector)
+    def addPhi(self, rbNodeHid,j, l):
+        self.phiValues[j] = rbNodeHid.calcPhi(self.inputVector, l)
