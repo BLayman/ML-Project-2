@@ -22,7 +22,7 @@ class KMeans:
             temp = Cluster.Cluster(self.dataPoints[temporary])
             self.means[i] = temp
 
-    
+    #Assigns 
     def calcMeans(self):
 
         for i in range(len(self.dataPoints)):
@@ -43,9 +43,10 @@ class KMeans:
                 tempCluster.clusterPoints.append(self.dataPoints[i])
             #self.means[minClusterIndex].addPoint(self.dataPoints[i])
         for i in self.means:
-            print(i.mean)
-            print(i.clusterPoints)
-            print()
+            #print(i.mean)
+            #print(i.clusterPoints)
+            #print()
+            pass
         
     def reCluster(self):
         changed = True
@@ -63,6 +64,8 @@ class KMeans:
                     if (math.fabs(tempMeans[i][j] - self.means[i].mean[j])) > 0.00001:
                         changed = True
                 tempMeans[i] = self.means[i].mean
+    
+    #Calculates the sigma value for each cluster based of the maximum pairwise distance within a cluster
     def calcSigma(self):
         meanWithSigma = [[] for i in range(len(self.means))]
         for i in range(len(self.means)):
@@ -70,26 +73,48 @@ class KMeans:
             tempList = []
             maxD = 0
             for j in range(len(temp)):
-                d = self.calcDistance(temp[j], temp[len(temp) - 1 - j])
-                if d > maxD:
-                    maxD = d
+                for k in range(len(temp)):
+                    d = self.calcDistance(temp[j], temp[k])
+                    if d > maxD:
+                        maxD = d
+            # print("max d", maxD)
             tempList.append(self.means[i].mean)
             sigma = float(maxD)/math.sqrt(2 * self.k)
             if (sigma < 0.00001):
                 sigma = 0.0001
             tempList.append(sigma)
+            # print("sig" , sigma)
             meanWithSigma[i] = tempList
         return meanWithSigma
-                
-
+    '''
+    def calcSigma(self):
+        maxD = 0
+        meanWithSigma = [[] for i in range(len(self.means))]
+        for j in range(len(self.dataPoints)):
+                for k in range(len(self.dataPoints)):
+                    d = self.calcDistance(self.dataPoints[j], self.dataPoints[k])
+                    if d > maxD:
+                        maxD = d
+        sigma = maxD / math.sqrt(len(self.means))
+        for i in range(len(self.means)): 
+            temp = self.means[i].clusterPoints
+            tempList = []
+            tempList.append(self.means[i].mean)
+            tempList.append(sigma)
+            meanWithSigma[i] = tempList
+        return meanWithSigma
+    '''
+        
+    #Calculates the distance in between two vectors
     def calcDistance(self, d1, d2):
         distance = 0.0
         for i in range(len(d1)):
             # adds the square of the difference of each variable in the data point
             distance += math.pow((d1[i] - (d2[i])),2) 
         #returns the Euclidean distance between two vectors
-        return math.sqrt(distance) 
+        return math.sqrt(distance)
 
+"""
 if __name__ == "__main__":
     num = 5
     data = [[[0, None] for i in range(3)] for j in range(num)]
@@ -110,5 +135,5 @@ if __name__ == "__main__":
     means1.reCluster()
     means1Sigma = means1.calcSigma()
     radialBasis1 = radialBasisOut.radialBasisOut(data1, expectedOut, 5, 1,means1Sigma)
-    
+""" 
 

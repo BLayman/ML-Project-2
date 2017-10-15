@@ -19,23 +19,37 @@ import sys
 
 
 if __name__ == "__main__":
-    print("argument 7: ", sys.argv[7])
-    train = GD(int(sys.argv[7]), int(sys.argv[1]), int(sys.argv[4]))
-    train.simple_random_sample(-3, 3)
-    train_data = train.get_data()
-    train_target = train.get_target_vector()
-            
-    bp = BP()
-    bp_network = bp.train(train_data, train_target, int(sys.argv[2]), int(sys.argv[3]))
 
-        # rfb = RFB(train_data, train_target, int(sys.argv[5]), int(sys.argv[6]), 0.05)
+    try:
+        train = GD(int(sys.argv[7]), int(sys.argv[1]), int(sys.argv[4]))
+        train.simple_random_sample(-2, 2) 
+        train_data = train.get_data()
+        train_target = train.get_target_vector()
 
-        # test = GD(int(sys.argv[7]), int(sys.argv[1]))
-        # test_data = test.get_data()
-        # test_target = test.get_target_vector()
-    
-        # t = Tester(bp.test(test_data, test_target, bp_network), rfb.test(test_data, test_target), "bp", "rbf")
-        # t.compare()
+        rfb = RFB(train_data, train_target, int(sys.argv[5]), int(sys.argv[6]), 0.05)
+        rfb.createNetwork()
+
+        bp = BP()
+        bp_network = bp.train(train_data, train_target, int(sys.argv[2]), int(sys.argv[3]))
+
+        
+        test = GD(int(int(sys.argv[7]) / 3), int(sys.argv[1]))
+        test.simple_random_sample(-3, 3)
+        test_data = test.get_data()
+        test_target = test.get_target_vector()
+
+        t = Tester(bp.test(test_data, test_target, bp_network), rfb.test(test_data, test_target), "bp", "rbf")
+        t.compare()
+
+    except IndexError as i:
+        print("Not enough arguments provided.\nExiting with error %s" % i)
+    except OverflowError:
+        print("Weighted Sums exceeded float cast INF")
+    except Exception as e:
+        print(e)
+    finally:
+        sys.exit()
+
 
 
 

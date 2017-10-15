@@ -18,7 +18,7 @@ class BPAlg:
         netPrinter = NetworkPrinter()
         netCreator = BPNetCreator(hiddenLayerNum,nodesInHLNum,len(inputsArray[0]),len(expectedOutputsArray[0]))
         network = netCreator.create()
-        #print("------------- Post creation -----------")
+        # print("------------- Post creation -----------")
         #netPrinter.printNet(network)
         stop = False
         counter = 0
@@ -32,7 +32,6 @@ class BPAlg:
             # forward propagate
             for i in range(len(inputsArray)):
                 forwardProp = ForwardProp(network,inputsArray[i],expectedOutputsArray[i])
-                #print("------------- Post forward -----------")
                 #netPrinter.printNet(network)
                 hypothesis = forwardProp.getHypothesis()
                 #print("hypothesis: " + str(hypothesis))
@@ -44,14 +43,18 @@ class BPAlg:
                 #print("------------- Post backward -----------")
                 #netPrinter.printNet(network)
             # after batch learning, run gradient descent
+
+            #print("Error: %f" % error)
+            #plt.plot(counter, error / len(inputsArray[0]), 'ro')
+
             gradDesc = GradientDescent(network, alpha, len(inputsArray), regularizationParam, convergenceEpsilon)
             stop = gradDesc.updateWeights()
             #print("-------------------")
             #print("------------- Post Gradient Descent -----------")
             #netPrinter.printNet(network)
         print(stop)
-        plt.plot(plotErrors)
-        plt.show()
+        #plt.plot(plotErrors)
+        #plt.show()
         return network
         
     def test(self, inputsArray, expectedOutputsArray, network):
@@ -63,8 +66,8 @@ class BPAlg:
             errors.append(error)
         for error in errors:
             totalError += error
-            print("error: " + str(error))
-        print("total error: " + str(totalError))
+            #print("error: " + str(error))
+        #print("total error: " + str(totalError))
         return errors
 
 
