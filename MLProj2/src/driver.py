@@ -11,7 +11,7 @@ arg6: # of RBF output neurons
 arg7: # of data points
 """
 
-from experiment.tester import Tester
+from experiment import Tester
 from experiment.generate_data import GenerateData as GD
 from backprop.bpAlg import BPAlg as BP
 from radialBasis.radialBasisOut import radialBasisOut as RFB

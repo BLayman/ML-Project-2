@@ -12,7 +12,7 @@ class BPAlg:
 
     def train(self, inputsArray, expectedOutputsArray, hiddenLayerNum, nodesInHLNum):
         plotErrors = []
-        alpha = .005
+        alpha = .1
         convergenceEpsilon = .01
         regularizationParam = .1
         netPrinter = NetworkPrinter()
@@ -26,7 +26,7 @@ class BPAlg:
             error = 0
             counter += 1
             print(counter)
-            if (counter > 2000): # 2000
+            if (counter > 1000): # 2000
                 print("stopped early")
                 break
             # forward propagate
@@ -44,8 +44,6 @@ class BPAlg:
                 #print("------------- Post backward -----------")
                 #netPrinter.printNet(network)
             # after batch learning, run gradient descent
-            print("Error: %f" % error)
-            plt.plot(counter, error / len(inputsArray[0]), 'ro')
             gradDesc = GradientDescent(network, alpha, len(inputsArray), regularizationParam, convergenceEpsilon)
             stop = gradDesc.updateWeights()
             #print("-------------------")
@@ -69,7 +67,7 @@ class BPAlg:
         print("total error: " + str(totalError))
         return errors
 
-"""
+
 trainingXData = []
 trainingYData = []
 testDataX = []
@@ -91,4 +89,4 @@ for i in range(10):
 bpAlg = BPAlg()
 trainedNetwork = bpAlg.train(trainingXData,trainingYData, 2, 8)
 bpAlg.test(testDataX, testDataY, trainedNetwork)
-"""
+
