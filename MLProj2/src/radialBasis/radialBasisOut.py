@@ -127,7 +127,7 @@ class radialBasisOut:
         xIndex  = [range(len(self.errors) +1 )]
         plt.plot(self.errors)
         plt.show()
-                
+"""                
 if __name__ == "__main__":    
     data1 = generate_data.GenerateData(1000, 2)
     data1.stratified_sample(10)
@@ -144,3 +144,4 @@ if __name__ == "__main__":
     rb1.test(test, testOut)
 
     #print(errors[0])
+"""
