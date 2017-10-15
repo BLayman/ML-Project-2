@@ -138,7 +138,7 @@ if __name__ == "__main__":
     data1.stratified_sample(10)
     input = data1.get_data()
     expected = data1.get_target_vector()
-    data2 = generate_data.GenerateData(5, 2)
+    data2 = generate_data.GenerateData(10, 2)
     data2.stratified_sample(10)
     test = data2.get_data()
     testOut = data2.get_target_vector()
@@ -146,13 +146,8 @@ if __name__ == "__main__":
     rb1 = radialBasisOut(input, expected,1,1,.005)
     rb1.createNetwork()
     print(rb1.outputNodes[0].weights)
-<<<<<<< HEAD
     #rb1.test(test, testOut)
 
     #print(errors[0])
 """
-=======
-    testErrors = rb1.test(test, testOut)
-    print(testErrors)
-    #rb1.graphErrors(testerrors)
->>>>>>> 169ad9cc8996c7ba725a8857d0abe5047d79706f
+
