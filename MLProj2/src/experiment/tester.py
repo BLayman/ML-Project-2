@@ -31,6 +31,16 @@ class Tester():
             difference_sum == ((e - mean)**2)
         return difference_sum / len(error)        
 
+    def get_mean(self):
+        if not self.e2:
+            return self.mean1
+        return (self.mean1, self.mean2)
+
+    def get_variance(self):
+        if not self.e2:
+            return self.var1
+        return (self.var1, self.var2)
+
     def get_stdev(self, desc = None):
         if not desc: return (self.var1**2, self.var2**2)
         if desc == self.desc1: return self.var1**2
