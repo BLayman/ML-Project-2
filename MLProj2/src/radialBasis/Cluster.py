@@ -6,8 +6,10 @@ class Cluster:
     def __init__(self, mean):
         self.mean = mean
         self.clusterPoints = [[]]
+    #adds a data point to the closet mean
     def addPoint(self, point):
         self.clusterPoints.append(point)
+    #Calculates the average of all teh data points in the cluster
     def calcCentroid(self):
         sum = [0] * len(self.clusterPoints[0])
         for i in range(len(self.clusterPoints)):

@@ -8,13 +8,11 @@ from radialBasis import KMeans
 from radialBasis import RbNode
 from radialBasis import RbNodeHidden
 from experiment import generate_data
-#from experiment.tester import Tester
 import math
-import pandas as pd
-import plotly.plotly as py
-import plotly.graph_objs as gr
+import numpy as np
 from matplotlib import pyplot as plt
-from pandas.core.indexing import _IXIndexer
+import scipy.stats as stats
+import pylab as pl
 
 
 
@@ -36,8 +34,7 @@ class radialBasisOut:
         self.k = k
         self.numOut = numOut
         self.alpha = alpha
-        #return self.test(testPoints, testExpectedOut)        
-    #kmeans will return a means[] list, with coresponding tuples, with sigma
+               
     #upon this call, there will be a trained network that will be able to be tested by the function test()
     def createNetwork(self):
         means1 = KMeans.KMeans(self.dataPoints, self.k)
@@ -52,56 +49,51 @@ class radialBasisOut:
         self.calcOutValues()
         
         self.train(self.alpha)
+    #Creates a node for each data point
     def createInputNodes(self):
         for i in range(len(self.dataPoints)):
-            #temp1 = self.dataPoints[i]
-            #expected = self.expectedOutput[i]
-            #temp = RbNode.RbNode(temp1, expected, self.k)
             self.inputNodes[i] = RbNode.RbNode(self.dataPoints[i], self.expectedOutput[i], self.k)
+    #Creates a node for each cluster
     def createHiddenNodes(self):
         print(len(self.means))
         for i in range(len(self.means)):
             self.hiddenNodes.append(RbNodeHidden.RbNodeHidden(self.means[i][0], self.means[i][1]))
-            #self.hiddenNodes.append(RbNodeHidden.RbNodeHidden(self.means[i][0], 5))
-        print(len(self.hiddenNodes))
+    #Creates the specified number of output points
     def createOutNodes(self):
         for i in range(self.numOut):
             self.outputNodes.append(node.RBFNode(self.k))
+    #Calculates the phi values for each input node
     def calcPhiVals(self):
         for i in range(len(self.inputNodes)):
             for j in range(len(self.hiddenNodes)):
                 self.inputNodes[i].addPhi(self.hiddenNodes[j], j, len(self.dataPoints))
             self.inputNodes[i].phiValues.append(1)
             print(self.inputNodes[i].phiValues)
-            
+    #Sums the weights and corresponding phi values of each input to calculate an output      
     def calcOutValues(self):
         for i in range(len(self.inputNodes)):
             for j in range(len(self.outputNodes)):
                 self.outputNodes[j].activeFunct(self.inputNodes[i] , j)
+    #Runs
     def train(self, alpha):
         network = [[RbNode] * self.numOut] * 1
         for i in range(len(self.outputNodes)):
             network[0][i] = self.outputNodes[i]
-        #descent1 = GradientDescent(network, alpha, len(self.inputNodes))
+    
         stop = False
         count = 0
+        #Updates the weights for a specified number or iterations. 
         while stop != True:
             stop = True
             self.calcOutValues()
             for i in range(len(self.outputNodes)):
                 
                 self.errors.append(.5 * (math.pow(self.outputNodes[i].errorcount / (len(self.inputNodes)),2))) 
-                #self.errors.append(self.outputNodes[i].errorcount/len(self.inputNodes))
                 self.outputNodes[i].errorcount = 0
-                #self.errors.append(self.outputNodes[i].errorcount / len(self.inputNodes))  
             for i in range(len(self.outputNodes)):
                 stop = self.outputNodes[i].updateWeights(self.alpha,len(self.inputNodes))
-                #if (self.outputNodes[i].maxError > 0.001):
-                #   print(self.outputNodes[i].maxError, "maxE")
-                 #   stop = False
-            #self.calcOutValues()
             count += 1
-            if(count >100):
+            if(count >50):
                 stop = True
         print("rate", count)
         self.graphErrors(self.errors)
@@ -116,49 +108,51 @@ class radialBasisOut:
             testPhi.append(1)
             node.phiValues = testPhi
             nodes.append(node)
-
+        #Adds the error of each test point to 
         for j in range(len(self.outputNodes)):
             sumerrors = 0
             for i in range(len(nodes)):
                 self.outputNodes[j].activeFunct(nodes[i], j)
                 out = nodes[i].output[j]
                 sumerrors += .5 * math.pow((expectedOut[i][0] - out), 2)
-                print(out)
-                print(expectedOut[i][0])
-                print(out - expectedOut[i][0], "difference")
-                print(.5 * math.pow((out - expectedOut[i][0]), 2), "meanSquared")
-                print()
                 testErrors.append(sumerrors / len(self.outputNodes))
         return testErrors
+    #Graphs the error over time
     def graphErrors(self, error):
         error[0] = error[1]
         plt.plot(error)
         plt.show()
-    #def graphTer(self,tErr):
-        #test1 = tester.Tester(tErr)
-              
+             
 if __name__ == "__main__":    
     
-    data1 = generate_data.GenerateData(1000, 6)
+    data1 = generate_data.GenerateData(1000, 2)
     data1.stratified_sample(10)
     input = data1.get_data()
     expected = data1.get_target_vector()
-    data2 = generate_data.GenerateData(10, 3)
+    data2 = generate_data.GenerateData(10, 2)
     data2.stratified_sample(10)
     test = data2.get_data()
     testOut = data2.get_target_vector()
     print(input)
-    rb1 = radialBasisOut(input, expected,200,1,.0005)
-    rb1.createNetwork()
+    print(expected)
+    rb1 = radialBasisOut(input, expected,250,1,.0005)
+    rb2 = radialBasisOut(input, expected,250,1,.05)
+    
+    rb3 = radialBasisOut(input, expected,500,1,.0005)
+    rb4 = radialBasisOut(input, expected,500,1,.05)
+    rb5 = radialBasisOut(input, expected,750,1,.0005)
+    rb6 = radialBasisOut(input, expected,750,1,.05)
+    #rb1.createNetwork()
+    #rb2.createNetwork()
+    #rb3.createNetwork()
+    rb4.createNetwork()
+    #rb5.createNetwork()
+    #rb6.createNetwork()
     print(rb1.outputNodes[0].weights)
     errors = rb1.test(test, testOut)
+
     
     #print(errors)
-    '''
-    train = [[1,1], [2,2], [3,3], [4,4], [0,1], [2,3], [5,1]]
-    rb1 = radialBasisOut(train, [[1],[2],[3],[4],[2],[3],[4]],2,1,.0005)
-    rb1.createNetwork()
-    '''
-    
+
 
 

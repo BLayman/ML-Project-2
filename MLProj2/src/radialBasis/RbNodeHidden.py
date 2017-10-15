@@ -12,7 +12,7 @@ class RbNodeHidden:
     def __init__(self, mean, sigma):
         self.sigma = sigma
         self.mean = mean
-    
+    #Calulates the phi value of a data point for a mean of a cluster
     def calcPhi(self,inputVector, sigma):
         distance = 0
         for i in range(len(inputVector)):

@@ -22,7 +22,7 @@ class KMeans:
             temp = Cluster.Cluster(self.dataPoints[temporary])
             self.means[i] = temp
 
-    
+    #Assigns 
     def calcMeans(self):
 
         for i in range(len(self.dataPoints)):
@@ -42,10 +42,6 @@ class KMeans:
             else:
                 tempCluster.clusterPoints.append(self.dataPoints[i])
             #self.means[minClusterIndex].addPoint(self.dataPoints[i])
-        for i in self.means:
-            print(i.mean)
-            print(i.clusterPoints)
-            print()
         
     def reCluster(self):
         changed = True
@@ -64,6 +60,7 @@ class KMeans:
                         changed = True
                 tempMeans[i] = self.means[i].mean
     
+    #Calculates the sigma value for each cluster based of the maximum pairwise distance within a cluster
     def calcSigma(self):
         meanWithSigma = [[] for i in range(len(self.means))]
         for i in range(len(self.means)):
@@ -103,7 +100,7 @@ class KMeans:
         return meanWithSigma
     '''
         
-
+    #Calculates the distance in between two vectors
     def calcDistance(self, d1, d2):
         distance = 0.0
         for i in range(len(d1)):
@@ -111,7 +108,8 @@ class KMeans:
             distance += math.pow((d1[i] - (d2[i])),2) 
         #returns the Euclidean distance between two vectors
         return math.sqrt(distance)
-
+#Main class for testing the K Means Algorithm
+'''
 if __name__ == "__main__":
     num = 5
     data = [[[0, None] for i in range(3)] for j in range(num)]
@@ -132,5 +130,6 @@ if __name__ == "__main__":
     means1.reCluster()
     means1Sigma = means1.calcSigma()
     radialBasis1 = radialBasisOut.radialBasisOut(data1, expectedOut, 5, 1,means1Sigma)
+    '''
     
 
