@@ -6,9 +6,10 @@ import random
 
 class GenerateData():
 
-    def __init__(self, size, parameter_count):
+    def __init__(self, size, parameter_count, output_count):
         self.parameter_count = parameter_count
         self.points = size
+        self.outputs = output_count
         self.data = []
         self.target_vector = []
 
@@ -22,14 +23,18 @@ class GenerateData():
                 self.data[point].append(random.uniform(-interval, interval))
             if len(self.data) % ppi == 0:
                 step += 1
-            self.target_vector.append(self.rosenbrock(self.data[point]))
+            for o in range(self.outputs):
+                self.target_vector.append([])
+                self.target_vector[point].append(self.rosenbrock(self.data[point]))
 
     def simple_random_sample(self, lower = -2, upper = 2):
         for point in range(self.points):
             self.data.append([])
             for d in range(self.parameter_count):
                 self.data[point].append(random.uniform(lower, upper))
-            self.target_vector.append(self.rosenbrock(self.data[point]))
+            for o in range(self.outputs):
+                self.target_vector.append([])
+                self.target_vector[point].append(self.rosenbrock(self.data[point]))
 
     def rosenbrock(self, x):
         rosenbrock_sum = 0

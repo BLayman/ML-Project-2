@@ -132,7 +132,7 @@ class radialBasisOut:
         error[0] = error[1]
         plt.plot(error)
         plt.show()
-                
+"""                
 if __name__ == "__main__":    
     data1 = generate_data.GenerateData(100, 2)
     data1.stratified_sample(10)
@@ -146,6 +146,8 @@ if __name__ == "__main__":
     rb1 = radialBasisOut(input, expected,1,1,.005)
     rb1.createNetwork()
     print(rb1.outputNodes[0].weights)
-    testErrors = rb1.test(test, testOut)
-    print(testErrors)
-    rb1.graphErrors(testErrors)
+    #rb1.test(test, testOut)
+
+    #print(errors[0])
+"""
+
