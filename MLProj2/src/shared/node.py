@@ -156,29 +156,21 @@ class RBFNode(Node):
             RbNode.output.append(output)
         else:
             RbNode.output[index] = output
-            #Adds the derivitive with respect to the weight to partialSum
+        #Adds the derivitive with respect to the weight to partialSum
         for j in range(len(RbNode.phiValues)):
             error = (output - RbNode.expectedOut[0])
-            #print("error", error)
-            #print("phival", RbNode.phiValues[j])
             self.partialsSum[j] += error * RbNode.phiValues[j]
-        #print("phi", RbNode.phiValues)
-        #print(output, " out")
-        #print(RbNode.expectedOut, "ex")
-        #print((RbNode.expectedOut[0] - output)**2)
+    
+    #updates the weights the correspond to the output node
     def updateWeights(self, alpha, dataSetSize):   
         Node.updateWeights(self, alpha, dataSetSize, 1)
         stop = True
-        #print(self.partialsSum)
         for k in range(len(self.partialsSum)):
             self.partialsSum[k] /= float(dataSetSize + 1)
         self.avgPartials = self.partialsSum
         #print("avg partials", self.avgPartials)
         for i in range(len(self.weights)):
             self.weights[i] -= (alpha * self.avgPartials[i]) 
-            #+ (alpha * self.prevWeightChanges[i])
-            
-            #self.prevWeightChanges[i] = -(((1-alpha) * self.avgPartials[i]) + (alpha * self.prevWeightChanges[i]))
             if (abs(self.avgPartials[i]) > 0.01):
                 stop = False
         self.averagePartials = []

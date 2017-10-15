@@ -16,5 +16,6 @@ class RbNode:
         self.phiValues = [0] * k
         self.k = k 
     
+    #Adds the phi value for the input vector in comparison to a mean of a cluster. 
     def addPhi(self, rbNodeHid,j, l):
         self.phiValues[j] = rbNodeHid.calcPhi(self.inputVector, l)

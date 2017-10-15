@@ -22,7 +22,7 @@ class KMeans:
             temp = Cluster.Cluster(self.dataPoints[temporary])
             self.means[i] = temp
 
-    
+    #Assigns 
     def calcMeans(self):
 
         for i in range(len(self.dataPoints)):
@@ -65,6 +65,7 @@ class KMeans:
                         changed = True
                 tempMeans[i] = self.means[i].mean
     
+    #Calculates the sigma value for each cluster based of the maximum pairwise distance within a cluster
     def calcSigma(self):
         meanWithSigma = [[] for i in range(len(self.means))]
         for i in range(len(self.means)):
@@ -104,7 +105,7 @@ class KMeans:
         return meanWithSigma
     '''
         
-
+    #Calculates the distance in between two vectors
     def calcDistance(self, d1, d2):
         distance = 0.0
         for i in range(len(d1)):
