@@ -51,6 +51,7 @@ class Tester():
 
     # Null hypothesis: There is no difference
     def compare(self):
+        """
         if not self.error2: return
         t = (self.mean1 - self.mean2) / math.sqrt((self.var1 / len(self.e1)) + (self.var2 / len(self.e2)))
         if len(self.e1) > len(self.e2):
@@ -62,6 +63,7 @@ class Tester():
         else:
             results = None # There is a significant difference
         self.output_comparison_results(results)
+        """
 
     def output_comparison_results(self, results = None):
         if not results: return # Send Logic Error

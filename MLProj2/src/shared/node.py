@@ -117,6 +117,9 @@ class BPNode(Node):
         
     # use logistic activation function for backprop
     def activFunct(self, weightedSum):
+        #set limits
+        if weightedSum > 100: weightedSum = 100
+        if weightedSum < -100: weightedSum = -100
         return 1 / (1 + math.pow(math.e, -1 * weightedSum))
     
 class BiasNode(Node):

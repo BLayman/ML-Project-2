@@ -86,7 +86,8 @@ for i in range(10):
 
 
 #test functionality
+"""
 bpAlg = BPAlg()
 trainedNetwork = bpAlg.train(trainingXData,trainingYData, 2, 8)
 bpAlg.test(testDataX, testDataY, trainedNetwork)
-
+"""
