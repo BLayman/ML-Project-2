@@ -71,7 +71,7 @@ class Node:
     # called by GradientDescent class
     # updates weights using partial derivatives and learning rate alpha
     def updateWeights(self, alpha, dataSetSize, regParam):
-        momentumParam = 0
+        momentumParam = .001
         currWeightChanges = []
         # average out partial derivative from sum
         self.avgPartials = [pSum / dataSetSize for pSum in self.partialsSum]

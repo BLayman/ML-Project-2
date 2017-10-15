@@ -38,6 +38,9 @@ class BPNetCreator:
         # output layer node: uses no activation function, just sum
         self.network.append([])
         for i in range(self.outNum):
-            self.network[self.hiddenLayerNum + 1].append(node.Node(self.nodesInHLNum + 1)) 
+            if (self.hiddenLayerNum != 0):
+                self.network[self.hiddenLayerNum + 1].append(node.Node(self.nodesInHLNum + 1))
+            else:
+                self.network[self.hiddenLayerNum + 1].append(node.Node(self.inNum + 1))
         return self.network
     

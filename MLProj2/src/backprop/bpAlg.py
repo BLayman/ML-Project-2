@@ -12,7 +12,7 @@ class BPAlg:
 
     def train(self, inputsArray, expectedOutputsArray, hiddenLayerNum, nodesInHLNum):
         plotErrors = []
-        alpha = .1
+        alpha = .0005
         convergenceEpsilon = .01
         regularizationParam = .1
         netPrinter = NetworkPrinter()
@@ -26,7 +26,7 @@ class BPAlg:
             error = 0
             counter += 1
             print(counter)
-            if (counter > 1000): # 2000
+            if (counter > 500): # 2000
                 print("stopped early")
                 break
             # forward propagate
