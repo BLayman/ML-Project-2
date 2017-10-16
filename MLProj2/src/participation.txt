@@ -1,0 +1,6 @@
+Carsen:
+	Wrote the code for radial basis, in node, wrote the RBF node subclass
+Brett:
+	Wrote the code for back prop, wrote the code in shared
+Kirby:
+	Wrote the code in experiment
