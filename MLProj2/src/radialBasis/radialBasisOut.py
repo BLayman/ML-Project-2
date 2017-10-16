@@ -7,12 +7,9 @@ from shared import node
 from radialBasis import KMeans
 from radialBasis import RbNode
 from radialBasis import RbNodeHidden
-from experiment import generate_data
 import math
-import numpy as np
 from matplotlib import pyplot as plt
-import scipy.stats as stats
-import pylab as pl
+
 
 
 
@@ -55,7 +52,6 @@ class radialBasisOut:
             self.inputNodes[i] = RbNode.RbNode(self.dataPoints[i], self.expectedOutput[i], self.k)
     #Creates a node for each cluster
     def createHiddenNodes(self):
-        #print(len(self.means))
         for i in range(len(self.means)):
             self.hiddenNodes.append(RbNodeHidden.RbNodeHidden(self.means[i][0], self.means[i][1]))
     #Creates the specified number of output points
@@ -93,10 +89,10 @@ class radialBasisOut:
             for i in range(len(self.outputNodes)):
                 stop = self.outputNodes[i].updateWeights(self.alpha,len(self.inputNodes))
             count += 1
-            if(count > 1000):
+            if(count >50):
                 stop = True
-        #print("rate", count)
-        #self.graphErrors(self.errors)
+        print("rate", count)
+        self.graphErrors(self.errors)
     def test(self, inputVectors, expectedOut):
         nodes = []
         testErrors = []
@@ -122,44 +118,9 @@ class radialBasisOut:
         error[0] = error[1]
         plt.plot(error)
         plt.show()
-    #def graphTer(self,tErr):
-        #test1 = tester.Tester(tErr)
-"""              
              
-if __name__ == "__main__":    
     
-    data1 = generate_data.GenerateData(1000, 6)
-    data1.stratified_sample(10)
-    input = data1.get_data()
-    expected = data1.get_target_vector()
-    data2 = generate_data.GenerateData(10, 2)
-    data2.stratified_sample(10)
-    test = data2.get_data()
-    testOut = data2.get_target_vector()
-    print(input)
-    print(expected)
-    rb1 = radialBasisOut(input, expected,250,1,.0005)
-    rb2 = radialBasisOut(input, expected,250,1,.05)
-    
-    rb3 = radialBasisOut(input, expected,500,1,.0005)
-    rb4 = radialBasisOut(input, expected,500,1,.05)
-    rb5 = radialBasisOut(input, expected,750,1,.0005)
-    #rb1.createNetwork()
-    #rb2.createNetwork()
-    #rb3.createNetwork()
-    #rb4.createNetwork()
-    rb5.createNetwork()
-    #rb6.createNetwork()
-    print(rb1.outputNodes[0].weights)
-    errors = rb1.test(test, testOut)
 
-    
-    #print(errors)
-    '''
-    train = [[1,1], [2,2], [3,3], [4,4], [0,1], [2,3], [5,1]]
-    rb1 = radialBasisOut(train, [[1],[2],[3],[4],[2],[3],[4]],2,1,.0005)
-    rb1.createNetwork()
-    '''
-""" 
+
 
 
