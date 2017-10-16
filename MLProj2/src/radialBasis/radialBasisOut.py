@@ -125,7 +125,7 @@ class radialBasisOut:
              
 if __name__ == "__main__":    
     
-    data1 = generate_data.GenerateData(1000, 2)
+    data1 = generate_data.GenerateData(1000, 6)
     data1.stratified_sample(10)
     input = data1.get_data()
     expected = data1.get_target_vector()
@@ -141,12 +141,11 @@ if __name__ == "__main__":
     rb3 = radialBasisOut(input, expected,500,1,.0005)
     rb4 = radialBasisOut(input, expected,500,1,.05)
     rb5 = radialBasisOut(input, expected,750,1,.0005)
-    rb6 = radialBasisOut(input, expected,750,1,.05)
     #rb1.createNetwork()
     #rb2.createNetwork()
     #rb3.createNetwork()
-    rb4.createNetwork()
-    #rb5.createNetwork()
+    #rb4.createNetwork()
+    rb5.createNetwork()
     #rb6.createNetwork()
     print(rb1.outputNodes[0].weights)
     errors = rb1.test(test, testOut)
