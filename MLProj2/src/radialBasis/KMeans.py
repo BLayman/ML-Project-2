@@ -42,6 +42,11 @@ class KMeans:
             else:
                 tempCluster.clusterPoints.append(self.dataPoints[i])
             #self.means[minClusterIndex].addPoint(self.dataPoints[i])
+        for i in self.means:
+            #print(i.mean)
+            #print(i.clusterPoints)
+            #print()
+            pass
         
     def reCluster(self):
         changed = True
@@ -72,13 +77,13 @@ class KMeans:
                     d = self.calcDistance(temp[j], temp[k])
                     if d > maxD:
                         maxD = d
-            print("max d", maxD)
+            # print("max d", maxD)
             tempList.append(self.means[i].mean)
             sigma = float(maxD)/math.sqrt(2 * self.k)
             if (sigma < 0.00001):
                 sigma = 0.0001
             tempList.append(sigma)
-            print("sig" , sigma)
+            # print("sig" , sigma)
             meanWithSigma[i] = tempList
         return meanWithSigma
     '''
@@ -108,8 +113,8 @@ class KMeans:
             distance += math.pow((d1[i] - (d2[i])),2) 
         #returns the Euclidean distance between two vectors
         return math.sqrt(distance)
-#Main class for testing the K Means Algorithm
-'''
+
+"""
 if __name__ == "__main__":
     num = 5
     data = [[[0, None] for i in range(3)] for j in range(num)]
@@ -130,6 +135,5 @@ if __name__ == "__main__":
     means1.reCluster()
     means1Sigma = means1.calcSigma()
     radialBasis1 = radialBasisOut.radialBasisOut(data1, expectedOut, 5, 1,means1Sigma)
-    '''
-    
+""" 
 

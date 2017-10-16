@@ -6,7 +6,7 @@ import random
 
 class GenerateData():
 
-    def __init__(self, size, parameter_count, output_count):
+    def __init__(self, size, parameter_count, output_count = 1):
         self.parameter_count = parameter_count
         self.points = size
         self.outputs = output_count

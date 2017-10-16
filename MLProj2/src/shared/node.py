@@ -71,7 +71,7 @@ class Node:
     # called by GradientDescent class
     # updates weights using partial derivatives and learning rate alpha
     def updateWeights(self, alpha, dataSetSize, regParam):
-        momentumParam = 0
+        momentumParam = .001
         currWeightChanges = []
         # average out partial derivative from sum
         self.avgPartials = [pSum / dataSetSize for pSum in self.partialsSum]
@@ -117,6 +117,9 @@ class BPNode(Node):
         
     # use logistic activation function for backprop
     def activFunct(self, weightedSum):
+        #set limits
+        if weightedSum > 100: weightedSum = 100
+        if weightedSum < -100: weightedSum = -100
         return 1 / (1 + math.pow(math.e, -1 * weightedSum))
     
 class BiasNode(Node):
@@ -151,7 +154,7 @@ class RBFNode(Node):
         for i in range(len(RbNode.phiValues)):
             #Calculates the output from a  given input
             output += (RbNode.phiValues[i] * self.weights[i])
-        self.errorcount += (output - RbNode.expectedOut[0])
+        self.errorcount += ((RbNode.expectedOut[0] - output)**2)
         if(len(RbNode.output) == index):
             RbNode.output.append(output)
         else:
@@ -168,6 +171,7 @@ class RBFNode(Node):
         for k in range(len(self.partialsSum)):
             self.partialsSum[k] /= float(dataSetSize + 1)
         self.avgPartials = self.partialsSum
+        #print("avg partials", self.avgPartials)
         for i in range(len(self.weights)):
             self.weights[i] -= (alpha * self.avgPartials[i]) 
             if (abs(self.avgPartials[i]) > 0.01):
@@ -176,4 +180,6 @@ class RBFNode(Node):
         
         self.partialsSum.clear()
         self.partialsSum = [0] * (self.weightNum + 1)
+        #print(self.weights, "weights")
+        stop = False
         return stop
