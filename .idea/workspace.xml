@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="aaff6081-526e-4ce4-92b3-89df5762a180" name="Default" comment="">
+    <list default="true" id="aaff6081-526e-4ce4-92b3-89df5762a180" name="Default" comment="&quot;final&quot;">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MLProj2/src/radialBasis/radialBasisOut.py" afterPath="$PROJECT_DIR$/MLProj2/src/radialBasis/radialBasisOut.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -415,6 +414,14 @@
       <option name="presentableId" value="Default" />
       <updated>1507060240246</updated>
     </task>
+    <task id="LOCAL-00001" summary="&quot;final&quot;">
+      <created>1508159125368</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1508159125368</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -447,6 +454,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="&quot;final&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="&quot;final&quot;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
