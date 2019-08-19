@@ -15,14 +15,19 @@ class BackProp:
             for i in range(len(self.network[j])):
                 # error inherited from layer j + 1
                 error = 0.0
+                # ignore hidden nodes in next layer when calculating delta for neuron i
+                offset = 1
+                # if calculating second to last and last layer
+                if (j == len(self.network) - 2):
+                    offset = 0
+
+
                 # for each neuron k in layer j + 1 (starts as output layer)
-                for k in range(len(self.network[j+1])-1):
+                for k in range(len(self.network[j+1])-offset):
                     # take the ith index in that neurons weight array,
                     # and multiply it by that neuron's delta, then add that product to our error
                     error += self.network[j+1][k].getWeights()[i] * self.network[j+1][k].getDelta()
-                # if at last hidden layer, no hidden nodes to exclude at final node in layer
-                if (j == len(self.network)-2):
-                    error += self.network[j+1][len(self.network[j+1])-1].getWeights()[i] * self.network[j+1][len(self.network[j+1])-1].getDelta()
+
                 # after error has been obtained, 
                 # multiply it by the derivative of the activation function to get the next delta
                 delta = error * self.activDeriv(self.network[j][i].getActiv())

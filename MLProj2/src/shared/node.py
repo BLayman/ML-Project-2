@@ -71,10 +71,14 @@ class Node:
     # called by GradientDescent class
     # updates weights using partial derivatives and learning rate alpha
     def updateWeights(self, alpha, dataSetSize, regParam):
-        momentumParam = .001
+        momentumParam = 0
         currWeightChanges = []
         # average out partial derivative from sum
+        # print(self.partialsSum)
+        # print dataSetSize
         self.avgPartials = [pSum / dataSetSize for pSum in self.partialsSum]
+        # print(self.avgPartials)
+
         for i in range(len(self.weights)):
             # if not bias term, use regularization
             if (i != len(self.weights)-1):
@@ -96,7 +100,7 @@ class Node:
     # initialize random weights
     def initWeights(self):
         for i in range(self.weightNum):
-            randomNum = random.uniform(-.5,.5)
+            randomNum = random.uniform(-1, 1)
             self.weights.append(randomNum)
 
     def initTestWeights(self):
