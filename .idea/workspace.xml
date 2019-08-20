@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aaff6081-526e-4ce4-92b3-89df5762a180" name="Default" comment="&quot;final&quot;">
-      <change beforePath="$PROJECT_DIR$/.idea/ML-Project-2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ML-Project-2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MLProj2/src/backprop/backProp.py" beforeDir="false" afterPath="$PROJECT_DIR$/MLProj2/src/backprop/backProp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MLProj2/src/backprop/bpAlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/MLProj2/src/backprop/bpAlg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MLProj2/src/shared/forwardProp.py" beforeDir="false" afterPath="$PROJECT_DIR$/MLProj2/src/shared/forwardProp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MLProj2/src/shared/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/MLProj2/src/shared/node.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
