@@ -27,7 +27,7 @@ class BPAlg:
             error = 0
 
             print(counter)
-            if (counter > 7000): # 2000
+            if (counter > 5000): # 2000
                 print("stopped early")
                 break
 
@@ -131,6 +131,6 @@ for i in range(200):
 #test functionality
 
 bpAlg = BPAlg()
-trainedNetwork = bpAlg.train(trainingXData,trainingYData, 2, 10, graphDataX, graphDataY)
+trainedNetwork = bpAlg.train(trainingXData,trainingYData, 3, 10, graphDataX, graphDataY)
 # bpAlg.test(testDataX, testDataY, trainedNetwork)
 # bpAlg.graph(graphDataX, graphDataY, trainedNetwork, 999)
