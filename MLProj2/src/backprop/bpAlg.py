@@ -27,28 +27,36 @@ class BPAlg:
             error = 0
 
             print(counter)
-            if (counter > 5000): # 2000
+            if (counter > 1000): # 2000
                 print("stopped early")
                 break
 
             if counter % 100 == 0:
                 self.graph(inputsArray, expectedOutputsArray, graphX, graphY, network, str(counter))
             # forward propagate
+            sum = 0
+            totalNum = 0
             for i in range(len(inputsArray)):
                 forwardProp = ForwardProp(network,inputsArray[i],expectedOutputsArray[i])
-                if counter == 0 and i == 0:
+                #if counter == 0 and i == 0:
                     #netPrinter.printNet(network)
-                    hypothesis = forwardProp.getHypothesis()
-                    #print("actual: " + str(forwardProp.expectedOuts))
-                    #print("hypothesis: " + str(hypothesis))
-                error = abs(forwardProp.getHypothesis()[0] - forwardProp.expectedOuts[0])
+
                 if counter % 100 == 0:
+                    hypothesis = forwardProp.getHypothesis()
+                    print("actual: " + str(forwardProp.expectedOuts))
+                    print("hypothesis: " + str(hypothesis))
+                    error = abs(forwardProp.getHypothesis()[0] - forwardProp.expectedOuts[0])
+                    sum += error
+                    totalNum += 1
                     plotErrors.append(error)
-                #print("**************           *****************  error  *********************: " + str(error))
+
                 # back propagate
                 BackProp(network)
                 #print("------------- Post backward -----------")
                 #netPrinter.printNet(network)
+            if counter % 100 == 0:
+                avgError = sum / totalNum
+                print("**************           ***************** avg error  *********************: " + str(avgError))
             # after batch learning, run gradient descent
 
             #print("Error: %f" % error)
@@ -113,7 +121,7 @@ graphDataY = []
 
 for i in range(30):
     x = random.uniform(-7,7)
-    print(x)
+    print(x/7)
     trainingXData.append([x/7])
     trainingYData.append([(x*x*x)])
     
@@ -131,6 +139,6 @@ for i in range(200):
 #test functionality
 
 bpAlg = BPAlg()
-trainedNetwork = bpAlg.train(trainingXData,trainingYData, 3, 10, graphDataX, graphDataY)
+trainedNetwork = bpAlg.train(trainingXData,trainingYData, 1, 20, graphDataX, graphDataY)
 # bpAlg.test(testDataX, testDataY, trainedNetwork)
 # bpAlg.graph(graphDataX, graphDataY, trainedNetwork, 999)
